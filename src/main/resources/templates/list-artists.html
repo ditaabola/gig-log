@@ -11,13 +11,14 @@
 
 </head>
 <body>
+<div th:insert="header :: header"></div>
 <div class="container my-2">
     <div class="card">
         <div class="card-body">
             <div switch="${artists}" class="container my-5">
                 <p class="my-5">
-                    <a href="/add" class="btn btn-primary">
-                        <i class="fas fa-user-plus ml-2">  Add Artist </i></a>
+                    <a href="/addArtist" class="btn btn-primary">
+                        <i class="fas fa-user-plus ml-2">Add Artist</i></a>
                 </p>
                 <div class="col-md-12">
                     <h2 case="null">No record found !!</h2>
@@ -30,9 +31,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr each="artist : ${artists}">
-                                <td text="${artist.name}"></td>
-                                <td text="${artist.contactemail}"></td>
+                            <tr th:each="artist : ${artists}">
+                                <td th:text="${artist.name}"></td>
+                                <td th:text="${artist.contactemail}"></td>
                             </tr>
                             </tbody>
                         </table>

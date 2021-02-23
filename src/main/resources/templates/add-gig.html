@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Add Gig</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+
+<body>
+<div th:insert="header :: header"></div>
+<div class="container my-5">
+    <h3>Add Gig</h3>
+    <div class="card">
+        <div class="card-body">
+            <div class="col-md-10">
+                <form action="#" th:action="@{/add-gig}" th:object="${gig}"
+                      method="post">
+                    <div class="row">
+
+                        <div class="form-group col-md-8">
+                            <label for="date" class="col-form-label">Gig Date</label>
+                            <input type="text" th:field="*{date}" class="form-control" id="name"placeholder="Gig Date" />
+                        </div>
+
+                        <div class="form-group col-md-8">
+                            <label for="type" class="col-form-label">Gig Type</label>
+                            <input type="text" th:field="*{type}" class="form-control" id="type" placeholder="Gig Type" />
+                        </div>
+
+                        <div class="form-group col-md-8">
+                            <label for="venue" class="col-form-label">Venue</label>
+                            <select th:field ="*{venues}" class="form-control" >
+                                <option th:each="venue: ${venues}" th:value="${venue.id}" th:text = "${venue.name}"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-8">
+                            <label for="artist" class="col-form-label">Artist</label>
+                            <select th:field ="*{artists}" class="form-control" >
+                                <option th:each="artist: ${artists}" th:value="${artist.id}" th:text = "${artist.name}"></option>
+                            </select>
+                        </div>
+
+                                               <div class="col-md-6">
+                            <input type="submit" class="btn btn-primary" value=" Add ">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

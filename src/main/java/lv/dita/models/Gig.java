@@ -16,9 +16,13 @@ public class Gig {
     private String date;
     @Column(name = "type")
     private String type;
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @JoinTable(name = "gigs_venues", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "venue_id") })
     private Set<Venue> venues = new HashSet<Venue>();
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @JoinTable(name = "gigs_artists", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "artist_id") })
     private Set<Artist> artists = new HashSet<Artist>();
 
     public Gig(String venueName, String date, String type) {
@@ -28,7 +32,6 @@ public class Gig {
     }
 
     public Gig() {
-
     }
 
     public Long getId() {

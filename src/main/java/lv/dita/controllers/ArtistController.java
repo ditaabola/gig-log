@@ -52,11 +52,27 @@ public class ArtistController {
         return "redirect:/artists";
     }
 
+    @GetMapping("/addArtist")
+    public String showCreateForm(Artist artist) {
+        return "add-artist";
+    }
+
+    @RequestMapping("/add-artist")
+    public String createArtist (Artist artist, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "add-artist";
+        }
+        artistService.createArtist(artist);
+        model.addAttribute("artist", artistService.findAllArtists());
+        return "redirect:/artists";
+    }
+
+
     @RequestMapping("/remove-artist/{id}")
     public String deleteArtist(@PathVariable("id") Long id, Model model) {
         artistService.deleteArtist(id);
 
-        model.addAttribute("book", artistService.findAllArtists());
+        model.addAttribute("artist", artistService.findAllArtists());
         return "redirect:/artists";
     }
 

@@ -50,6 +50,14 @@ public class GigController {
         return "list-gigs";
     }
 
+    @GetMapping("/add")
+    public String showCreateForm(Gig gig, Model model) {
+        model.addAttribute("venues", venueService.findAllVenues());
+        model.addAttribute("artists", artistService.findAllArtists());
+
+        return "add-gig";
+    }
+
     @RequestMapping("/gig/{id}")
     public String findGigById(@PathVariable("id") Long id, Model model) {
         final Optional<Gig> gig = gigService.findGigById(id);
@@ -57,14 +65,6 @@ public class GigController {
         model.addAttribute("gig", gig);
         return "list-gig";
     }
-
-//    @GetMapping("/add")
-//    public String showCreateForm(Gig gig, Model model) {
-//        model.addAttribute("venueName", venueService.findAllVenues());
-//        model.addAttribute("date", authorService.findAllAuthors());
-//        model.addAttribute("type", publisherService.findAllPublishers());
-//        return "add-gig";
-//    }
 
     @RequestMapping("/add-gig")
     public String createGig(Gig gig, BindingResult result, Model model) {
