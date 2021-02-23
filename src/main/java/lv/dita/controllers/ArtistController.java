@@ -10,23 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class ArtistController {
 
-    private final GigService gigService;
     private final ArtistService artistService;
-    private final VenueService venueService;
-    private final ManagerService managerService;
 
     @Autowired
-    public ArtistController (GigService gigService, ArtistService artistService, VenueService venueService, ManagerService managerService) {
-        this.gigService = gigService;
+    public ArtistController(ArtistService artistService) {
         this.artistService = artistService;
-        this.venueService = venueService;
-        this.managerService = managerService;
     }
 
     @RequestMapping("/artists")
@@ -38,7 +33,7 @@ public class ArtistController {
     }
 
     @RequestMapping("/artist{id}")
-    public String findArtistById (@PathVariable("id") Long id, Model model) {
+    public String findArtistById(@PathVariable("id") Long id, Model model) {
         final Optional<Artist> artist = artistService.findArtistById(id);
 
         model.addAttribute("artist", artist);
@@ -58,7 +53,7 @@ public class ArtistController {
     }
 
     @RequestMapping("/remove-artist/{id}")
-    public String deleteArtist (@PathVariable("id") Long id, Model model) {
+    public String deleteArtist(@PathVariable("id") Long id, Model model) {
         artistService.deleteArtist(id);
 
         model.addAttribute("book", artistService.findAllArtists());
