@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Update Gig</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+ 
+<body>
+	<div th:insert="header :: header"></div>
+    <div class="container my-5">
+        <h3>Update Gig</h3>
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-10">
+                    <form action="#" th:action="@{/update-gig/{id}(id=${gig.id})}" th:object="${gig}" method="post">
+                        <div class="row">
+                        
+                            <div class="form-group col-md-8">
+                                <label for="id" class="col-form-label">ID</label>
+                                <input type="text" th:field="*{id}" class="form-control" id="id" placeholder="ID" />
+                                <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
+                            </div>
+                            
+                            <div class="form-group col-md-8">
+                                <label for="name" class="col-form-label">Venue Name</label>
+                                <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Venue Name" />
+                            </div>
+                            
+                            <div class="form-group col-md-8">
+                                <label for="serialName" class="col-form-label">Venue Type</label>
+                                <input type="text" th:field="*{type}" class="form-control" id="serialName" placeholder="Venue Type" />
+                            </div>
+                            
+                             <div class="form-group col-md-8">
+                                <label for="date" class="col-form-label">Date</label>
+                                <input type="text" th:field="*{date}" class="form-control" id="date" placeholder="Date" />
+                            </div>
+ 
+                            <div class="col-md-6">
+                                <input type="submit" class="btn btn-primary" value=" Update ">
+                            </div>
+     
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+ 
+</html>

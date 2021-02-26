@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>All Gigs</title>
+    <title>All Venues</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -15,10 +15,10 @@
 <div class="container my-2">
     <div class="card">
         <div class="card-body">
-            <div switch="${artists}" class="container my-5">
+            <div switch="${venues}" class="container my-5">
                 <p class="my-5">
-                    <a href="/add" class="btn btn-primary">
-                        <i class="fas fa-user-plus ml-2">  Add Gig </i></a>
+                    <a href="/addVenue" class="btn btn-primary">
+                        <i class="fas fa-user-plus ml-2">Add Venue</i></a>
                 </p>
                 <div class="col-md-12">
                     <h2 case="null">No record found !!</h2>
@@ -26,19 +26,21 @@
                         <table class="table table-striped table-responsive-md">
                             <thead>
                             <tr>
-                                <th>Venue</th>
-                                <th>Date</th>
+                                <th>Name</th>
                                 <th>Type</th>
+                                <th>Country</th>
+                                <th>City</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="gig : ${gigs}">
-                                <td th:text="${gig.venues[0].name}"></td>
-                                <td th:text="${gig.date}"></td>
-                                <td th:text="${gig.type}"></td>
-                            <td><a th:href="@{/gig/{id}(id=${gig.id})}" class="btn btn-primary"><i class="fas fa-marker ml-2"></i></a></td>
-                            <td><a th:href="@{/update-gig/{id}(id=${gig.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
-                            <td><a th:href="@{/remove-gig/{id}(id=${gig.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
+                            <tr th:each="venue : ${venues}">
+                                <td th:text="${venue.name}"></td>
+                                <td th:text="${venue.type}"></td>
+                                <td th:text="${venue.country}"></td>
+                                <td th:text="${venue.city}"></td>
+                                <td><a th:href="@{/venue/{id}(id=${venue.id})}" class="btn btn-primary"><i class="fas fa-marker ml-2"></i></a></td>
+                                <td><a th:href="@{/update-venue/{id}(id=${venue.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+                                <td><a th:href="@{/remove-venue/{id}(id=${venue.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
                             </tr>
                             </tbody>
                         </table>

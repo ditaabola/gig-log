@@ -2,9 +2,6 @@ package lv.dita.controllers;
 
 import lv.dita.models.Artist;
 import lv.dita.service.ArtistService;
-import lv.dita.service.GigService;
-import lv.dita.service.ManagerService;
-import lv.dita.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
