@@ -1,7 +1,7 @@
 package lv.dita.repositories;
 
-import lv.dita.models.Manager;
-import org.springframework.data.jpa.repository.JpaRepository;
+import lv.dita.entity.Manager;
+import org.springframework.data.repository.CrudRepository;
 
-public interface ManagerRepository extends JpaRepository<Manager, Long> {
+public interface ManagerRepository extends CrudRepository<Manager, Long> {
 }

@@ -1,15 +1,15 @@
 package lv.dita.service;
 
-import lv.dita.models.Venue;
+import lv.dita.entity.Venue;
+import lv.dita.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface VenueService {
 
     public List<Venue> findAllVenues();
 
-    public Optional<Venue> findVenueById (Long id);
+    public Venue findVenueById (Long id) throws NotFoundException;
 
     public void createVenue (Venue venue);
 

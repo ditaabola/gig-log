@@ -1,34 +1,46 @@
-package lv.dita.models;
+package lv.dita.entity;
+
+import lv.dita.enums.GigType;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name="gigs")
 public class Gig {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "venueName")
-    private String venueName;
-    @Column(name = "date")
-    private String date;
-    @Column(name = "type")
-    private String type;
+    private LocalDate date;
+    private GigType type;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
-    @JoinTable(name = "gigs_venues", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "venue_id") })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+        @JoinTable(name = "gigs_venues", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "venue_id") })
     private Set<Venue> venues = new HashSet<Venue>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name = "gigs_artists", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "artist_id") })
     private Set<Artist> artists = new HashSet<Artist>();
 
-    public Gig(String venueName, String date, String type) {
-        this.venueName = venueName;
+    public Gig(LocalDate date, GigType type) {
         this.date = date;
         this.type = type;
+    }
+
+    public Gig(Long id, LocalDate date, GigType type) {
+        this.id = id;
+        this.date = date;
+        this.type = type;
+    }
+
+    public Gig(LocalDate date, GigType type, Set<Venue> venues, Set<Artist> artists) {
+        this.date = date;
+        this.type = type;
+        this.venues = venues;
+        this.artists = artists;
     }
 
     public Gig() {
@@ -42,36 +54,20 @@ public class Gig {
         this.id = id;
     }
 
-    public String getVenue() {
-        return venueName;
-    }
-
-    public void setVenue(String venue) {
-        this.venueName = venue;
-    }
-
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getType() {
+    public GigType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(GigType type) {
         this.type = type;
-    }
-
-    public String getVenueName() {
-        return venueName;
-    }
-
-    public void setVenueName(String venueName) {
-        this.venueName = venueName;
     }
 
     public Set<Venue> getVenues() {
@@ -108,5 +104,20 @@ public class Gig {
     public void removeArtists(Artist artist) {
         this.artists.remove(artist);
         artist.getGigs().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Gig gig = (Gig) o;
+
+        return id != null ? id.equals(gig.id) : gig.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

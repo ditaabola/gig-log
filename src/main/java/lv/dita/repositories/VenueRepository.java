@@ -1,7 +1,7 @@
 package lv.dita.repositories;
 
-import lv.dita.models.Venue;
-import org.springframework.data.jpa.repository.JpaRepository;
+import lv.dita.entity.Venue;
+import org.springframework.data.repository.CrudRepository;
 
-public interface VenueRepository extends JpaRepository<Venue, Long> {
+public interface VenueRepository extends CrudRepository<Venue, Long> {
 }

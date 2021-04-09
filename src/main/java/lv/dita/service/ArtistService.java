@@ -1,14 +1,14 @@
 package lv.dita.service;
 
-import lv.dita.models.Artist;
+import lv.dita.entity.Artist;
+import lv.dita.exception.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 public interface ArtistService {
 
     public List<Artist> findAllArtists();
 
-    public Optional<Artist> findArtistById(Long id);
+    public Artist findArtistById(Long id) throws NotFoundException;
 
     public void createArtist(Artist artist);
 

@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Add Artist</title>
+    <title>Update Artist</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 </head>
+
 <body>
 <div th:insert="header :: header"></div>
 <div class="container my-5">
-    <h3>Add new artist</h3>
+    <h3>Update Artist</h3>
     <div class="card">
         <div class="card-body">
             <div class="col-md-10">
-                <form action="#" th:action="@{/add-artist}" th:object="${artist}" method="post">
+                <form action="#" th:action="@{/update-artist/{id}(id=${artist.id})}" th:object="${artist}" method="post">
                     <div class="row">
                         <div class="form-group col-md-8">
                             <label for="name" class="col-form-label">Artist Name</label>
-                            <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Artist Name" />
+                            <input type="text" th:field="*{name}" class="form-control" id="name" />
                         </div>
                         <div class="form-group col-md-8">
-                            <label for="contactEmail" class="col-form-label">Contact E-mail</label>
-                            <input type="email" th:field="*{contactEmail}" class="form-control" id="contactEmail" placeholder="Artist contact e-mail" />
+                            <label for="contactEmail" class="col-form-label">Artist Contact e-mail</label>
+                            <input type="text" th:field="*{contactEmail}" class="form-control" id="contactEmail" />
                         </div>
                         <div class="form-group col-md-8">
-                            <label for="manager" class="col-form-label">Category</label>
-                            <select th:field ="*{managers}" class="form-control" id="manager" placeholder="Manager surname'">
-                                <option th:each="manager: ${managers}" th:value="${manager.id}" th:text = "${manager.surname}"></option>
+                            <label for="manager" class="col-form-label">Manager</label>
+                            <select name="manager" class="form-control" id="manager">
+                                <option th:each="manager : ${managers}"
+                                        th:value="${manager.id}" th:text="${manager.surname}"></option>
                             </select>
                         </div>
-
                         <div class="col-md-6">
-                            <input type="submit" class="btn btn-primary" value=" Add ">
+                            <input type="submit" class="btn btn-primary" value=" Update ">
                         </div>
                     </div>
                 </form>
@@ -42,4 +44,5 @@
     </div>
 </div>
 </body>
+
 </html>

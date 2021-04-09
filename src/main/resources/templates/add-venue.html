@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -11,7 +10,6 @@
     <link rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 </head>
-
 <body>
 <div th:insert="header :: header"></div>
 <div class="container my-5">
@@ -22,28 +20,27 @@
                 <form action="#" th:action="@{/add-venue}" th:object="${venue}"
                       method="post">
                     <div class="row">
-
                         <div class="form-group col-md-8">
                             <label for="name" class="col-form-label">Venue Name</label>
-                            <input type="text" th:field="*{name}" class="form-control" id="name"placeholder="Venue Name" />
-
+                            <input type="text" th:field="*{name}" class="form-control" id="name" />
+                        </div>
                         <div class="form-group col-md-8">
                             <label for="type" class="col-form-label">Venue Type</label>
-                            <input type="text" th:field="*{type}" class="form-control" id="type" placeholder="Venue Type" />
-                        </div>
-
-                        <div class="form-group col-md-8">
-                            <label for="country" class="col-form-label">Country</label>
-                            <input type="text" th:field="*{country}" class="form-control" id="country" placeholder="Country" />
+                            <select name="type" class="form-control" id="type">
+                                <option th:each="type : ${T(lv.dita.enums.VenueType).values()}"
+                                        th:value="${type}" th:text="${type.displayValue}"></option>
                             </select>
                         </div>
-
-                            <div class="form-group col-md-8">
-                                <label for="city" class="col-form-label">City</label>
-                                <input type="text" th:field="*{city}" class="form-control" id="city" placeholder="City" />
-                                </select>
-                            </div>
-                                               <div class="col-md-6">
+                        <div class="form-group col-md-8">
+                            <label for="country" class="col-form-label">Country</label>
+                            <input type="text" th:field="*{country}" class="form-control" id="country" />
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="city" class="col-form-label">City</label>
+                            <input type="text" th:field="*{city}" class="form-control" id="city" />
+                            </select>
+                        </div>
+                        <div class="col-md-6">
                             <input type="submit" class="btn btn-primary" value=" Add ">
                         </div>
 

@@ -1,7 +1,7 @@
 package lv.dita.service;
 
-import lv.dita.models.Artist;
-import lv.dita.models.Gig;
+import lv.dita.entity.Gig;
+import lv.dita.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +10,9 @@ public interface GigService {
 
     public List<Gig> findAllGigs();
 
-    public List<Gig> searchGigs(String keyword);
+//    public List<Gig> searchGigs(String keyword);
 
-    public Optional<Gig> findGigById(Long id);
+    public Gig findGigById(Long id) throws NotFoundException;
 
     public void createGig (Gig gig);
 

@@ -21,16 +21,14 @@
                         <table class="table table-striped table-responsive-md">
                             <thead>
                             <tr>
-                                <th>Venue</th>
                                 <th>Date</th>
                                 <th>Type</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td th:text="${gig.venues[0].name}"></td>
                                 <td th:text="${gig.date}"></td>
-                                <td th:text="${gig.type}"></td>
+                                <td th:text="${gig.type.displayValue}"></td>
                             </tr>
                             </tbody>
                         </table>

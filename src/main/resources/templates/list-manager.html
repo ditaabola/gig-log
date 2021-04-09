@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>All Venues</title>
+    <title>All Managers</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet"href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+
 </head>
 <body>
 <div th:insert="header :: header"></div>
@@ -20,17 +22,15 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Type</th>
-                                <th>Country</th>
-                                <th>City</th>
+                                <th>Surname</th>
+                                <th>E-mail</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td th:text="${venue.name}"></td>
-                                <td th:text="${venue.type}"></td>
-                                <td th:text="${venue.country}"></td>
-                                <td th:text="${venue.city}"></td>
+                                <td th:text="${manager.name}"></td>
+                                <td th:text="${manager.surname}"></td>
+                                <td th:text="${manager.e-mail}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -41,4 +41,5 @@
     </div>
 </div>
 </body>
+
 </html>

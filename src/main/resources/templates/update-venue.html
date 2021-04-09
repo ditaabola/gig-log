@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Update Gig</title>
+    <title>Update Venue</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
@@ -13,45 +13,39 @@
 <body>
 <div th:insert="header :: header"></div>
 <div class="container my-5">
-    <h3>Update Gig</h3>
+    <h3>Update Venue</h3>
     <div class="card">
         <div class="card-body">
             <div class="col-md-10">
-                <form action="#" th:action="@{/update-gig/{id}(id=${gig.id})}" th:object="${gig}" method="post">
+                <form action="#" th:action="@{/update-venue/{id}(id=${venue.id})}" th:object="${venue}" method="post">
                     <div class="row">
                         <div class="form-group col-md-8">
                             <label for="id" class="col-form-label">ID</label>
-                            <input type="text" th:field="*{id}" class="form-control" id="id" />
+                            <input type="text" th:field="*{id}" class="form-control" id="id" placeholder="ID" />
                             <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
                         </div>
                         <div class="form-group col-md-8">
                             <label for="name" class="col-form-label">Venue Name</label>
-                            <select name="name" class="form-control" id="name" th:placeholder="Venue name">
-                                <option th:each="venue : ${venues}"
-                                        th:value="${gigs.venues[0].id}" th:text="${venue.name}"></option>
-
+                            <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Venue Name" />
                         </div>
                         <div class="form-group col-md-8">
-                            <label for="type" class="col-form-label">Gig Type</label>
-                            <select name="type" class="form-control" id="type" th:placeholder="Gig Type">
-                                <option th:each="type : ${T(lv.dita.enums.GigType).values()}"
+                            <label for="type" class="col-form-label">Venue Type</label>
+                            <select name="type" class="form-control" id="type" th:placeholder="Venue Type">
+                                <option th:each="type : ${T(lv.dita.enums.VenueType).values()}"
                                         th:value="${type}" th:text="${type}"></option>
                             </select>
-                        <div class="form-group col-md-8">
-                            <label for="date" class="col-form-label">Date</label>
-                            <input type="text" th:field="*{date}" class="form-control" id="date" />
                         </div>
                         <div class="form-group col-md-8">
-                            <label for="artist" class="col-form-label">Artist</label>
-                            <select name="artist" class="form-control" id="artist" th:placeholder="Artist">
-                                <option th:each="artist : ${artists}"
-                                        th:value="${artist.id}" th:text="${artist.name}"></option>
-                            </select>
+                            <label for="country" class="col-form-label">Country</label>
+                            <input type="text" th:field="*{country}" class="form-control" id="country" placeholder="Country" />
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="city" class="col-form-label">City</label>
+                            <input type="text" th:field="*{city}" class="form-control" id="city" placeholder="City" />
                         </div>
                         <div class="col-md-6">
                             <input type="submit" class="btn btn-primary" value=" Update ">
                         </div>
-
                     </div>
                 </form>
             </div>
