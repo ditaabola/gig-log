@@ -1,11 +1,10 @@
-package lv.dita.entity;
+package lv.dita.model;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="managers")
 public class Manager {
 
     @Id
@@ -23,8 +22,7 @@ public class Manager {
         this.artists = artists;
     }
 
-    @ManyToMany (fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JoinTable(name = "managers_artists", joinColumns = { @JoinColumn(name = "manager_id") }, inverseJoinColumns = { @JoinColumn(name = "artist_id") })
+    @ManyToMany(mappedBy = "managers")
     private Set<Artist> artists = new HashSet<>();
 
     public Manager(String name, String surname, String email) {

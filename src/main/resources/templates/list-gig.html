@@ -22,13 +22,17 @@
                             <thead>
                             <tr>
                                 <th>Date</th>
+                                <th>Venue</th>
                                 <th>Type</th>
+                                <th>Artist</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td th:text="${gig.date}"></td>
+                                <td th:text="${gig.venues[0].name}"></td>
                                 <td th:text="${gig.type.displayValue}"></td>
+                                <td th:text="${gig.artists[0].name}"></td>
                             </tr>
                             </tbody>
                         </table>

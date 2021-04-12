@@ -1,11 +1,14 @@
 package lv.dita.service.impl;
 
-import lv.dita.entity.Gig;
+import lv.dita.model.Gig;
 import lv.dita.exception.NotFoundException;
 import lv.dita.repositories.GigRepository;
 import lv.dita.service.GigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +23,7 @@ public class GigServiceImpl implements GigService {
         this.gigRepository = gigRepository;
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Gig> findAllGigs() {
         List<Gig> gigList = (List<Gig>) gigRepository.findAll();
@@ -39,6 +43,7 @@ public class GigServiceImpl implements GigService {
 //        return gigRepository.findAll();
 //    }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Gig findGigById(Long id) throws NotFoundException {
         return gigRepository.findById(id)

@@ -1,6 +1,6 @@
 package lv.dita.controllers;
 
-import lv.dita.entity.Venue;
+import lv.dita.model.Venue;
 import lv.dita.exception.NotFoundException;
 import lv.dita.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;

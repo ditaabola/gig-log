@@ -19,16 +19,17 @@
                     <div class="row">
                         <div class="form-group col-md-8">
                             <label for="name" class="col-form-label">Artist Name</label>
-                            <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Artist Name" />
+                            <input type="text" th:field="*{name}" class="form-control" value="Your Artist" id="name" th:required="required" />
                         </div>
                         <div class="form-group col-md-8">
                             <label for="contactEmail" class="col-form-label">Contact E-mail</label>
-                            <input type="email" th:field="*{contactEmail}" class="form-control" id="contactEmail" placeholder="Artist contact e-mail" />
+                            <input type="email" th:field="*{contactEmail}" class="form-control" value="Artist contact e-mail" id="contactEmail" th:required="required" />
                         </div>
                         <div class="form-group col-md-8">
-                            <label for="manager" class="col-form-label">Category</label>
-                            <select th:field ="*{managers}" class="form-control" id="manager" placeholder="Manager surname'">
-                                <option th:each="manager: ${managers}" th:value="${manager.id}" th:text = "${manager.surname}"></option>
+                            <label for="manager" class="col-form-label">Manager</label>
+                            <select th:field ="*{managers}" class="form-control" id="manager" th:required="required">
+                                <option th:each="manager: ${managers}"
+                                        th:value="${manager.id}" th:text = "${manager.surname}"></option>
                             </select>
                         </div>
 

@@ -1,11 +1,12 @@
 package lv.dita.service.impl;
 
-import lv.dita.entity.Venue;
+import lv.dita.model.Venue;
 import lv.dita.exception.NotFoundException;
 import lv.dita.repositories.VenueRepository;
 import lv.dita.service.VenueService;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ public class VenueServiceImpl implements VenueService {
         this.venueRepository = venueRepository;
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Venue> findAllVenues() {
         List<Venue> venueList = (List<Venue>) venueRepository.findAll();
@@ -30,6 +32,7 @@ public class VenueServiceImpl implements VenueService {
         }
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Venue findVenueById(Long id) throws NotFoundException {
         return venueRepository.findById(id)

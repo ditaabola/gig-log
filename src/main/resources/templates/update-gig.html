@@ -20,30 +20,25 @@
                 <form action="#" th:action="@{/update-gig/{id}(id=${gig.id})}" th:object="${gig}" method="post">
                     <div class="row">
                         <div class="form-group col-md-8">
-                            <label for="id" class="col-form-label">ID</label>
-                            <input type="text" th:field="*{id}" class="form-control" id="id" />
-                            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
-                        </div>
-                        <div class="form-group col-md-8">
                             <label for="name" class="col-form-label">Venue Name</label>
-                            <select name="name" class="form-control" id="name" th:placeholder="Venue name">
+                            <select name="name" class="form-control" id="name">
                                 <option th:each="venue : ${venues}"
-                                        th:value="${gigs.venues[0].id}" th:text="${venue.name}"></option>
-
+                                        th:value="${venue.id}" th:text="${venue.name}"></option>
+                            </select>
                         </div>
                         <div class="form-group col-md-8">
                             <label for="type" class="col-form-label">Gig Type</label>
-                            <select name="type" class="form-control" id="type" th:placeholder="Gig Type">
+                            <select name="type" class="form-control" id="type">
                                 <option th:each="type : ${T(lv.dita.enums.GigType).values()}"
-                                        th:value="${type}" th:text="${type}"></option>
+                                        th:value="${type}" th:text="${type.displayValue}" th:required="required"></option>
                             </select>
                         <div class="form-group col-md-8">
                             <label for="date" class="col-form-label">Date</label>
-                            <input type="text" th:field="*{date}" class="form-control" id="date" />
+                            <input type="date" th:field="*{date}" class="form-control" id="date" th:required="required"/>
                         </div>
                         <div class="form-group col-md-8">
                             <label for="artist" class="col-form-label">Artist</label>
-                            <select name="artist" class="form-control" id="artist" th:placeholder="Artist">
+                            <select name="artist" class="form-control" id="artist" th:placeholder="Artist" th:required="required">
                                 <option th:each="artist : ${artists}"
                                         th:value="${artist.id}" th:text="${artist.name}"></option>
                             </select>

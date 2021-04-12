@@ -7,7 +7,7 @@ public enum GigType {
     LIVE_CONCERT ("Live concert");
 
 
-    private final String displayValue ;
+    private final String displayValue;
 
     private GigType(String displayValue) {
         this.displayValue = displayValue;

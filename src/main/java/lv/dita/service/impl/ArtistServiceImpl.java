@@ -1,11 +1,18 @@
 package lv.dita.service.impl;
 
-import lv.dita.entity.Artist;
+import lv.dita.model.Artist;
 import lv.dita.exception.NotFoundException;
 import lv.dita.repositories.ArtistRepository;
 import lv.dita.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,24 +40,38 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public Artist findArtistById(Long id) throws NotFoundException {
-        return artistRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Artist not found with ID %d", id)));
+        Optional<Artist> optional = artistRepository.findById(id);
+        Artist artist = null;
+        if (optional.isPresent()) {
+            artist = optional.get();
+        } else {
+            throw new NotFoundException("Artist not found for id :: " + id);
+        }
+        return artist;
     }
 
     @Override
-    public void createArtist(Artist artist) {
-        artistRepository.save(artist);
+    public Artist createArtist(Artist artist) {
+        return artistRepository.save(artist);
     }
 
     @Override
-    public void updateArtists(Artist artist) {
-
-        artistRepository.save(artist);
+    public Artist updateArtists(Artist artist) {
+        return artistRepository.save(artist);
     }
 
     @Override
     public void deleteArtist(Long id) {
         final Optional<Artist> artist = artistRepository.findById(id);
         artistRepository.deleteById(artist.get().getId());
+    }
+
+    @Override
+    public Page<Artist> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.artistRepository.findAll(pageable);
     }
 }

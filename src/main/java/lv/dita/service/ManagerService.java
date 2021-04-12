@@ -1,6 +1,6 @@
 package lv.dita.service;
 
-import lv.dita.entity.Manager;
+import lv.dita.model.Manager;
 import lv.dita.exception.NotFoundException;
 import java.util.List;
 

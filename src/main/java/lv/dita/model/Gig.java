@@ -1,29 +1,32 @@
-package lv.dita.entity;
+package lv.dita.model;
 
 import lv.dita.enums.GigType;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="gigs")
 public class Gig {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     private GigType type;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
         @JoinTable(name = "gigs_venues", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "venue_id") })
     private Set<Venue> venues = new HashSet<Venue>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "gigs_artists", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "artist_id") })
     private Set<Artist> artists = new HashSet<Artist>();
+
+    public Gig() {
+    }
 
     public Gig(LocalDate date, GigType type) {
         this.date = date;
@@ -36,14 +39,12 @@ public class Gig {
         this.type = type;
     }
 
-    public Gig(LocalDate date, GigType type, Set<Venue> venues, Set<Artist> artists) {
+    public Gig(Long id, LocalDate date, GigType type, Set<Venue> venues, Set<Artist> artists) {
+        this.id = id;
         this.date = date;
         this.type = type;
         this.venues = venues;
         this.artists = artists;
-    }
-
-    public Gig() {
     }
 
     public Long getId() {
@@ -104,6 +105,14 @@ public class Gig {
     public void removeArtists(Artist artist) {
         this.artists.remove(artist);
         artist.getGigs().remove(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Gig{" +
+                "date=" + date +
+                ", type=" + type +
+                '}';
     }
 
     @Override

@@ -23,12 +23,14 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Contact e-mail</th>
+                                <th>Manager</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td th:text="${artist.name}"></td>
                                 <td th:text="${artist.contactEmail}"></td>
+                                <td th:text="${artist.managers[0].surname}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -39,5 +41,4 @@
     </div>
 </div>
 </body>
-
 </html>

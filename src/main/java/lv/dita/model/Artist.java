@@ -1,20 +1,22 @@
-package lv.dita.entity;
+package lv.dita.model;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="artists")
 public class Artist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "contact_email")
     private String contactEmail;
 
-    @ManyToMany(mappedBy = "artists")
+    @ManyToMany (fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinTable(name = "artists_managers", joinColumns = { @JoinColumn(name = "artist_id") }, inverseJoinColumns = { @JoinColumn(name = "manager_id") })
     private Set<Manager> managers = new HashSet<>();
 
     @ManyToMany(mappedBy = "artists")

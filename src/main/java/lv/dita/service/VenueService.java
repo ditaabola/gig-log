@@ -1,6 +1,6 @@
 package lv.dita.service;
 
-import lv.dita.entity.Venue;
+import lv.dita.model.Venue;
 import lv.dita.exception.NotFoundException;
 
 import java.util.List;

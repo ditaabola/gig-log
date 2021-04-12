@@ -1,13 +1,11 @@
-package lv.dita.entity;
+package lv.dita.model;
 
 import lv.dita.enums.VenueType;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="venues")
 public class Venue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

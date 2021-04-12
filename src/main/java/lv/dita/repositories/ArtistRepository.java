@@ -1,10 +1,9 @@
 package lv.dita.repositories;
 
-import lv.dita.entity.Artist;
+import lv.dita.model.Artist;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-@Repository
-public interface ArtistRepository extends CrudRepository<Artist, Long> {
+public interface ArtistRepository extends PagingAndSortingRepository<Artist, Long> {
 }

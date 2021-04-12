@@ -21,17 +21,17 @@
                     <div class="row">
                         <div class="form-group col-md-8">
                             <label for="name" class="col-form-label">Artist Name</label>
-                            <input type="text" th:field="*{name}" class="form-control" id="name" />
+                            <input type="text" th:field="*{name}" class="form-control" id="name" th:required="required"/>
                         </div>
                         <div class="form-group col-md-8">
                             <label for="contactEmail" class="col-form-label">Artist Contact e-mail</label>
-                            <input type="text" th:field="*{contactEmail}" class="form-control" id="contactEmail" />
+                            <input type="text" th:field="*{contactEmail}" class="form-control" id="contactEmail" th:required="required"/>
                         </div>
                         <div class="form-group col-md-8">
                             <label for="manager" class="col-form-label">Manager</label>
-                            <select name="manager" class="form-control" id="manager">
+                            <select name="manager" class="form-control" id="manager" th:required="required">
                                 <option th:each="manager : ${managers}"
-                                        th:value="${manager.id}" th:text="${manager.surname}"></option>
+                                        th:value="${manager.id}" th:text="${manager.surname}" ></option>
                             </select>
                         </div>
                         <div class="col-md-6">

@@ -1,6 +1,6 @@
 package lv.dita.controllers;
 
-import lv.dita.entity.Manager;
+import lv.dita.model.Manager;
 import lv.dita.exception.NotFoundException;
 import lv.dita.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class ManagerController {
         return "update-manager";
     }
 
-    @RequestMapping(value = "/update-manager/{id}")
+    @PostMapping(value = "/update-manager/{id}")
     public String updateManager(@PathVariable("id") Long id, Manager manager, BindingResult result, Model model) {
         if (result.hasErrors()) {
             manager.setId(id);
@@ -66,7 +66,7 @@ public class ManagerController {
         return "add-manager";
     }
 
-    @RequestMapping("/add-manager")
+    @PostMapping("/add-manager")
     public String createManager (Manager manager, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-manager";

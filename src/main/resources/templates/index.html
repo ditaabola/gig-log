@@ -6,13 +6,22 @@
     <title>Home Page</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet"href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+
+    <link rel="stylesheet" media="screen" href="style.css">
 
 </head>
 
 <body>
-<div th:insert="header :: header"></div>
+
+<p> Welcome to the Gig log - application to easily log all the gigs of your band!</p>
+
+<p>Please enter your data first:</p>
+<ol>
+    <li class="list-choices"><a href="list-managers.html" th:href="@{/managers}">Managers list</a></li>
+    <li class="list-choices"><a href="list-artists.html" th:href="@{/artists}">Artist list</a></li>
+    <li class="list-choices"><a href="list-venues.html" th:href="@{/venues}">Venues list</a></li>
+    <li class="list-choices"><a href="list-gigs.html" th:href="@{/gigs}">Gig list</a></li>
+</ol>
 
 </body>
 </html>

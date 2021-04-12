@@ -1,8 +1,8 @@
 package lv.dita.controllers;
 
-import lv.dita.entity.Artist;
-import lv.dita.entity.Gig;
-import lv.dita.entity.Venue;
+import lv.dita.model.Artist;
+import lv.dita.model.Gig;
+import lv.dita.model.Venue;
 import lv.dita.exception.NotFoundException;
 import lv.dita.service.ArtistService;
 import lv.dita.service.GigService;
@@ -11,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -30,7 +29,7 @@ public class GigController {
         this.artistService = artistService;
     }
 
-    @RequestMapping("/gigs")
+    @GetMapping("/gigs")
     public String findAllGigs(Model model) {
         final List<Gig> gigs = gigService.findAllGigs();
         final List<Venue> venues = venueService.findAllVenues();
@@ -42,6 +41,16 @@ public class GigController {
         return "list-gigs";
     }
 
+    @GetMapping("/gig/{id}")
+    public String findGigById(@PathVariable("id") Long id, Model model) throws NotFoundException {
+
+        final Gig gig = gigService.findGigById(id);
+
+        model.addAttribute("gig", gig);
+        return "list-gig";
+    }
+
+
     @GetMapping("/addGig")
     public String showCreateForm(Gig gig, Model model) {
         model.addAttribute("venues", venueService.findAllVenues());
@@ -50,7 +59,7 @@ public class GigController {
         return "add-gig";
     }
 
-    @RequestMapping("/add-gig")
+    @PostMapping(value="/add-gig")
     public String createGig (Gig gig, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-gig";
@@ -61,24 +70,18 @@ public class GigController {
     }
 
 
-    @RequestMapping("/gig/{id}")
-    public String findGigById(@PathVariable("id") Long id, Model model) throws NotFoundException {
-
-        final Gig gig = gigService.findGigById(id);
-
-        model.addAttribute("gig", gig);
-        return "list-gig";
-    }
-
-    @GetMapping("/updateGig/{id}")
+    @GetMapping(value="/updateGig/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) throws NotFoundException {
         final Gig gig = gigService.findGigById(id);
 
         model.addAttribute("gig", gig);
+
+        model.addAttribute("venues", venueService.findAllVenues());
+        model.addAttribute("artists", artistService.findAllArtists());
         return "update-gig";
     }
 
-    @RequestMapping("/update-gig/{id}")
+    @PostMapping(value="/update-gig/{id}")
     public String updateGig(@PathVariable("id") Long id, Gig gig, BindingResult result, Model model) {
         if (result.hasErrors()) {
             gig.setId(id);
@@ -91,7 +94,7 @@ public class GigController {
 
 
 
-    @RequestMapping("/remove-gig/{id}")
+    @DeleteMapping("/remove-gig/{id}")
     public String deleteGig(@PathVariable("id") Long id, Model model) {
         gigService.deleteGig(id);
 

@@ -1,10 +1,9 @@
 package lv.dita.service;
 
-import lv.dita.entity.Gig;
+import lv.dita.model.Gig;
 import lv.dita.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GigService {
 
