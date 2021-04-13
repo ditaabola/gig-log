@@ -1,9 +1,14 @@
 package lv.dita.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 public class Manager {
 
@@ -13,14 +18,6 @@ public class Manager {
     private String name;
     private String surname;
     private String email;
-
-    public Set<Artist> getArtists() {
-        return artists;
-    }
-
-    public void setArtists(Set<Artist> artists) {
-        this.artists = artists;
-    }
 
     @ManyToMany(mappedBy = "managers")
     private Set<Artist> artists = new HashSet<>();
@@ -45,53 +42,8 @@ public class Manager {
         this.email = email;
     }
 
-
     public Manager() {
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    public void addArtists(Artist artist) {
-        this.artists.add(artist);
-        artist.getManagers().add(this);
-    }
-
-    public void removeArtists(Artist artist) {
-        this.artists.remove(artist);
-        artist.getManagers().remove(this);
-    }
-
 
     @Override
     public boolean equals(Object o) {

@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class ManagerController {
     }
 
 
-    @RequestMapping("/managers")
+    @GetMapping("/managers")
     public String findAllManagers(Model model) {
         final List<Manager> managers = managerService.findAllManagers();
 
@@ -33,7 +30,7 @@ public class ManagerController {
         return "list-managers";
     }
 
-    @RequestMapping("/manager/{id}")
+    @GetMapping("/manager/{id}")
     public String findManagerById(@PathVariable("id") Long id, Model model) throws NotFoundException {
 
         final Manager manager = managerService.findManagerById(id);
@@ -77,14 +74,13 @@ public class ManagerController {
     }
 
 
-    @RequestMapping("/remove-manager/{id}")
+    @GetMapping("/remove-manager/{id}")
     public String deleteManager(@PathVariable("id") Long id, Model model) {
         managerService.deleteManager(id);
 
         model.addAttribute("manager", managerService.findAllManagers());
         return "redirect:/managers";
     }
-
 
 
 }

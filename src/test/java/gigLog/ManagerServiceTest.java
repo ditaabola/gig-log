@@ -33,14 +33,14 @@ public class ManagerServiceTest {
     private ManagerRepository managerRepository;
 
     @Test
-    public void ifNoManagersCreatedEmptyListShouldBeReturned() {
+    public void testIfEmptyListReturnedWhenNoManagersCreated() {
         Mockito.when(managerRepository.findAll()).thenReturn(new ArrayList<>());
         assertEquals(new ArrayList<>(), managerService.findAllManagers());
     }
 
 
     @Test
-    public void findAllArtistsShouldReturnAllArtistsList() {
+    public void testIfFindAllReturnsAllCreatedManagers() {
 
         Mockito.when(managerRepository.findAll()).thenReturn(Arrays.asList(
                 new Manager(1L, "John", "Manager", "john@manager.com"),
@@ -58,7 +58,7 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void findOneManagerShouldReturnOneManager() throws NotFoundException {
+    public void testIfFindByIdReturnsOneManager() {
         Mockito.when(managerRepository.findById(1L)).thenReturn(Optional.of(new Manager("Laura", "Themanager", "laura@laura.com")));
 
         Manager manager = managerService.findManagerById(1l);
@@ -67,7 +67,7 @@ public class ManagerServiceTest {
     }
 
     @Test(expected = NotFoundException.class)
-    public void finManagerNotFoundShouldThrowException() throws NotFoundException {
+    public void testIfNotFoundExceptionErrorThrownIfNoManagerWithIdFound() {
         Mockito.when(managerRepository.findById(1L)).thenReturn(Optional.empty());
 
         Manager manager = managerService.findManagerById(1l);
@@ -76,7 +76,7 @@ public class ManagerServiceTest {
 
 
     @Test
-    public void updateManagerShouldUpdateManager() {
+    public void testIfManagerUpdated() {
         final Manager manager = new Manager(1L, "Carl", "Jaman", "carl@jaman.com");
 
         manager.setEmail("carl@carl.com");
@@ -86,7 +86,7 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void deleteManagerShouldDeleteManager() {
+    public void testIfManagerDeleted() {
         final Manager manager = new Manager(1L, "Carl", "Jaman", "carl@jaman.com");
 
         List<Manager> managerList = Arrays.asList(manager);

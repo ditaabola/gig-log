@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -22,7 +21,7 @@ public class VenueController {
         this.venueService = venueService;
     }
 
-    @RequestMapping("/venues")
+    @GetMapping("/venues")
     public String findAllVenues(Model model) {
         final List<Venue> venues = venueService.findAllVenues();
 
@@ -30,7 +29,7 @@ public class VenueController {
         return "list-venues";
     }
 
-    @RequestMapping("/venue/{id}")
+    @GetMapping("/venue/{id}")
     public String findVenue(@PathVariable("id") Long id, Model model) throws NotFoundException {
 
         final Venue venue = venueService.findVenueById(id);
@@ -47,7 +46,7 @@ public class VenueController {
         return "update-venue";
     }
 
-    @RequestMapping("/update-venue/{id}")
+    @PostMapping("/update-venue/{id}")
     public String updateVenue(@PathVariable("id") Long id, Venue venue, BindingResult result, Model model) {
         if (result.hasErrors()) {
             venue.setId(id);
@@ -63,7 +62,7 @@ public class VenueController {
         return "add-venue";
     }
 
-    @RequestMapping("/add-venue")
+    @PostMapping("/add-venue")
     public String createVenue (Venue venue, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-venue";
@@ -74,7 +73,7 @@ public class VenueController {
     }
 
 
-    @RequestMapping("/remove-venue/{id}")
+    @GetMapping("/remove-venue/{id}")
     public String deleteVenue(@PathVariable("id") Long id, Model model) {
         venueService.deleteVenue(id);
 

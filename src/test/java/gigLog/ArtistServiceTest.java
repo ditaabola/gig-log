@@ -27,19 +27,19 @@ public class ArtistServiceTest {
     private ArtistRepository artistRepository;
 
     @Test
-    public void ifNoArtistsCreatedEmptyListShouldBeReturned() {
+    public void testIfEmptyListReturnedWhenNoArtistsCreated() {
         Mockito.when(artistRepository.findAll()).thenReturn(new ArrayList<>());
         assertEquals(new ArrayList<>(), artistService.findAllArtists());
     }
 
 
     @Test
-    public void findAllArtistsShouldReturnAllArtistsList() {
+    public void testIfFindAllReturnsAllCreatedArtists() {
 
         Mockito.when(artistRepository.findAll()).thenReturn(Arrays.asList(
-                new Artist(1L, "Juuk", "juuk@juuk.com"),
+                new Artist(1L, "Juuk", "juuuk@juuk.com"),
                 new Artist(2L, "Manta", "manta@juuk.com"),
-                new Artist(3L, "Sniedze", "sniedze@juuk.com")
+                new Artist(3l, "Sniedze", "sniedze@juuk.com")
         ));
 
         List<Artist> allArtistsList = artistService.findAllArtists();
@@ -52,7 +52,7 @@ public class ArtistServiceTest {
     }
 
     @Test
-    public void findOneArtistShouldReturnOneArtist() throws NotFoundException {
+    public void testIfFindByIdReturnsOneArtist() {
         Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(new Artist("Banda", "banda@banda.com")));
 
         Artist artist = artistService.findArtistById(1l);
@@ -61,7 +61,7 @@ public class ArtistServiceTest {
     }
 
     @Test(expected = NotFoundException.class)
-    public void findArtistNotFoundShouldThrowException() throws NotFoundException {
+    public void testIfNotFoundExceptionErrorThrownIfNoArtistWithIdFound() {
         Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.empty());
 
         Artist artist = artistService.findArtistById(1l);
@@ -70,7 +70,7 @@ public class ArtistServiceTest {
 
 
     @Test
-    public void updateArtistShouldUpdateArtist() {
+    public void testIfArtistUpdated() {
         final Artist artist = new Artist(1L, "Juuk", "juuk@juuk.com");
 
         artist.setName("Banda");
@@ -80,9 +80,8 @@ public class ArtistServiceTest {
     }
 
     @Test
-    public void deleteArtistShouldDeleteArtist() {
+    public void testIfArtistDeleted() {
         final Artist artist = new Artist(1L, "Juuk", "juuk@juuk.com");
-        List<Artist> artistList = Arrays.asList(artist);
         Long artistId = artist.getId();
         Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
         artistService.deleteArtist(artistId);

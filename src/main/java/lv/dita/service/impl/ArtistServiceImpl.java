@@ -5,13 +5,7 @@ import lv.dita.exception.NotFoundException;
 import lv.dita.repositories.ArtistRepository;
 import lv.dita.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +25,7 @@ public class ArtistServiceImpl implements ArtistService {
     public List<Artist> findAllArtists() {
         List<Artist> artistList = (List<Artist>) artistRepository.findAll();
 
-        if(artistList.size() > 0) {
+        if(!artistList.isEmpty()) {
             return artistList;
         } else {
             return new ArrayList<>();
@@ -41,11 +35,11 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public Artist findArtistById(Long id) throws NotFoundException {
         Optional<Artist> optional = artistRepository.findById(id);
-        Artist artist = null;
+        Artist artist;
         if (optional.isPresent()) {
             artist = optional.get();
         } else {
-            throw new NotFoundException("Artist not found for id :: " + id);
+            throw new NotFoundException (String.format("Artist not found with ID %d", id));
         }
         return artist;
     }
@@ -61,22 +55,9 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public Artist deleteArtist(Long id) {
-        Artist artist = null;
-        Optional optional = artistRepository.findById(id);
-        if (optional.isPresent()) {
-            artist = artistRepository.findById(id).get();
-            artistRepository.deleteById(id);
-        }
-        return artist;
+    public void deleteArtist(Long id) {
+        final Optional<Artist> artist = artistRepository.findById(id);
+            artistRepository.deleteById(artist.get().getId());
     }
 
-    @Override
-    public Page<Artist> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.artistRepository.findAll(pageable);
-    }
 }

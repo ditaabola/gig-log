@@ -1,18 +1,21 @@
 package lv.dita.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 public class Artist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "contact_email")
     private String contactEmail;
 
     @ManyToMany (fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
@@ -42,76 +45,6 @@ public class Artist {
         this.contactEmail = contactEmail;
         this.managers = managers;
     }
-
-    public Set<Manager> getManagers() {
-        return managers;
-    }
-
-    public void setManagers(Set<Manager> managers) {
-        this.managers = managers;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
-    public Set<Gig> getGigs() {
-        return gigs;
-    }
-
-    public void setGigs(Set<Gig> gigs) {
-        this.gigs = gigs;
-    }
-
-//    public boolean hasGigs(Optional<Gig> gig) {
-//        for (Gig containedGig : getGigs()) {
-//            if (containedGig.getId() == gig.get().getId()) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
-    public void addGigs(Gig gig) {
-        this.gigs.add(gig);
-        gig.getArtists().add(this);
-    }
-
-    public void removeGigs(Gig gig) {
-        this.gigs.remove(gig);
-        gig.getArtists().remove(this);
-    }
-
-    public void addManagers(Manager manager) {
-        this.managers.add(manager);
-        manager.getArtists().add(this);
-    }
-
-    public void removeManagers(Manager manager) {
-        this.managers.remove(manager);
-        manager.getArtists().remove(this);
-    }
-
 
     @Override
     public String toString() {

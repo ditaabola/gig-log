@@ -6,7 +6,6 @@ import lv.dita.exception.NotFoundException;
 import lv.dita.service.ArtistService;
 import lv.dita.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,14 +35,17 @@ public class ArtistController {
         return "list-artists";
     }
 
-    @GetMapping(value="/artist/{id}")
-    public String findArtistById(@PathVariable("id") Long id, Model model) throws NotFoundException {
-
-        final Artist artist = artistService.findArtistById(id);
-
-        model.addAttribute("artist", artist);
-        return "list-artist";
+    @GetMapping("/artist/{id}")
+    public String findArtistById(@PathVariable("id") Long id, Model model) {
+        try {
+            final Artist artist = artistService.findArtistById(id);
+            model.addAttribute("artist", artist);
+        } catch (RuntimeException e) {
+            throw new NotFoundException("Artist with such ID cannot be found");
+        }
+            return "list-artist";
     }
+
 
     @GetMapping(value="/addArtist")
     public String showCreateForm(Model model) {
@@ -91,28 +93,6 @@ public class ArtistController {
 
         model.addAttribute("artist", artistService.findAllArtists());
         return "redirect:/artists";
-    }
-
-    @GetMapping("/page/{pageNo}")
-    public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
-                                @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDir") String sortDir,
-                                Model model) {
-        int pageSize = 5;
-
-        Page<Artist> page = artistService.findPaginated(pageNo, pageSize, sortField, sortDir);
-        List<Artist> artists = page.getContent();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
-        model.addAttribute("artists", artists);
-        return "list-artists";
     }
 
 }

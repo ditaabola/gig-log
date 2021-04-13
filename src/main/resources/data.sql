@@ -1,4 +1,3 @@
-<--DROP TABLE IF EXISTS ARTIST;
---CREATE TABLE ARTIST(ID BIGINT PRIMARY KEY, NAME VARCHAR(255), CONTACT_EMAIL VARCHAR(255));
---INSERT INTO ARTIST VALUES('Juuk', 'juuk@juuk.con');
---INSERT INTO ARTIST VALUES('Juuk', 'juuk@juuk.con');-->
+insert into artist
+    (id, contact_email, name)
+values (1, ''Juuk'', ''juuk@juuk.com'');

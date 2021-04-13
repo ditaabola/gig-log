@@ -1,14 +1,12 @@
 package lv.dita.service.impl;
 
+import lv.dita.model.Artist;
 import lv.dita.model.Manager;
 import lv.dita.exception.NotFoundException;
 import lv.dita.repositories.ManagerRepository;
 import lv.dita.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,23 +21,27 @@ public class ManagerServiceImpl implements ManagerService {
         this.managerRepository = managerRepository;
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Manager> findAllManagers() {
         List<Manager> managerList = (List<Manager>) managerRepository.findAll();
 
-        if(managerList.size() > 0){
+        if(!managerList.isEmpty()){
             return managerList;
-        }else {
+        } else {
             return new ArrayList<>();
         }
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
-    public Manager findManagerById(Long id) throws NotFoundException {
-        return managerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Manager not found with ID %d", id)));
+    public Manager findManagerById(Long id) {
+        Optional<Manager> optional = managerRepository.findById(id);
+        Manager manager;
+        if (optional.isPresent()) {
+            manager = optional.get();
+        } else {
+            throw new NotFoundException (String.format("Manager not found with ID %d", id));
+        }
+        return manager;
     }
 
     @Override
@@ -52,9 +54,10 @@ public class ManagerServiceImpl implements ManagerService {
         managerRepository.save(manager);
     }
 
+
     @Override
     public void deleteManager(Long id) {
         final Optional<Manager> manager = managerRepository.findById(id);
-        managerRepository.deleteById(manager.get().getId());
+            managerRepository.deleteById(manager.get().getId());
     }
 }

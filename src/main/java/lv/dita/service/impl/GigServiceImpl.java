@@ -6,9 +6,6 @@ import lv.dita.repositories.GigRepository;
 import lv.dita.service.GigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,31 +20,27 @@ public class GigServiceImpl implements GigService {
         this.gigRepository = gigRepository;
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Gig> findAllGigs() {
         List<Gig> gigList = (List<Gig>) gigRepository.findAll();
 
-        if (gigList.size() > 0) {
+        if(!gigList.isEmpty()){
             return gigList;
         } else {
             return new ArrayList<>();
         }
     }
 
-//    @Override
-//    public List<Gig> searchGigs(String keyword) {
-//        if (keyword != null) {
-//            return gigRepository.search(keyword);
-//        }
-//        return gigRepository.findAll();
-//    }
-
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Gig findGigById(Long id) throws NotFoundException {
-        return gigRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Gig not found with ID %d", id)));
+        Optional<Gig> optional = gigRepository.findById(id);
+        Gig gig;
+        if (optional.isPresent()) {
+            gig = optional.get();
+        } else {
+            throw new NotFoundException(String.format("Gig not found with ID %d", id));
+        }
+        return gig;
     }
 
     @Override
@@ -62,8 +55,7 @@ public class GigServiceImpl implements GigService {
 
     @Override
     public void deleteGig(Long id) {
-        final Optional<Gig> gig = gigRepository.findById(id);
-        gigRepository.deleteById(gig.get().getId());
+       final Optional<Gig> gig = gigRepository.findById(id);
+            gigRepository.deleteById(gig.get().getId());
     }
-
 }

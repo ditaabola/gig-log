@@ -1,5 +1,10 @@
 package lv.dita.enums;
 
+import org.hibernate.engine.spi.Status;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public enum GigType {
     PRIVATE_GIG ("Private gig"),
     CORPORATE_GIG ("Corporate gig"),
@@ -17,4 +22,5 @@ public enum GigType {
         return displayValue;
 
     }
+
 }

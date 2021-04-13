@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Arrays;
 import java.util.List;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -37,7 +39,7 @@ public class ArtistControllerTest {
         Artist artist1 = new Artist(1L, "Juuk", "juuk@juuk.com");
         Artist artist2 = new Artist(2L, "Manta", "manta@juuk.com");
         Artist artist3 = new Artist(3L, "Sniedze", "sniedze@juuk.com");
-        List<Artist> artistList = List.of(artist1, artist2, artist3);
+        List<Artist> artistList = Arrays.asList(artist1, artist2, artist3);
 
         Manager manager = new Manager(1L, "John", "Manager", "john@manager.com");
         List<Manager> managerList = List.of(manager);

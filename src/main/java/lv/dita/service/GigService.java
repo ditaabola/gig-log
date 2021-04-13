@@ -9,8 +9,6 @@ public interface GigService {
 
     public List<Gig> findAllGigs();
 
-//    public List<Gig> searchGigs(String keyword);
-
     public Gig findGigById(Long id) throws NotFoundException;
 
     public void createGig (Gig gig);

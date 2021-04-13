@@ -1,10 +1,14 @@
 package lv.dita.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import lv.dita.enums.VenueType;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 public class Venue {
     @Id
@@ -15,7 +19,7 @@ public class Venue {
     private String country;
     private String city;
     @ManyToMany(mappedBy="venues")
-    private Set<Gig> gigs = new HashSet<Gig>();
+    private Set<Gig> gigs = new HashSet<>();
 
     public Venue() {
     }
@@ -33,64 +37,6 @@ public class Venue {
         this.type = type;
         this.country = country;
         this.city = city;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public VenueType getType() {
-        return type;
-    }
-
-    public void setType(VenueType type) {
-        this.type = type;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Gig> getGigs() {
-        return gigs;
-    }
-
-    public void setGigs(Set<Gig> gigs) {
-        this.gigs = gigs;
-    }
-
-    public void addGig(Gig gig) {
-        this.gigs.add(gig);
-        gig.getVenues().add(this);
-    }
-
-    public void removeGigs(Gig gig) {
-        this.gigs.remove(gig);
-        gig.getVenues().remove(this);
     }
 
     @Override
