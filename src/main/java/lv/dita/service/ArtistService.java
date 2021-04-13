@@ -17,7 +17,7 @@ public interface ArtistService {
 
     public Artist updateArtists(Artist artist);
 
-    public void deleteArtist(Long id);
+    public Artist deleteArtist(Long id);
 
     Page<Artist> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 }

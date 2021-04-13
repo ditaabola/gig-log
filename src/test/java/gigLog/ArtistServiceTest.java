@@ -1,23 +1,17 @@
-package gigLog.serviceTest;
+package gigLog;
 
 import lv.dita.exception.NotFoundException;
 import lv.dita.model.Artist;
 import lv.dita.repositories.ArtistRepository;
-import lv.dita.service.ArtistService;
 import lv.dita.service.impl.ArtistServiceImpl;
-import org.assertj.core.api.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,15 +27,14 @@ public class ArtistServiceTest {
     private ArtistRepository artistRepository;
 
     @Test
-    public void ifNoArtistsCreatedEmptyListReturned() {
+    public void ifNoArtistsCreatedEmptyListShouldBeReturned() {
         Mockito.when(artistRepository.findAll()).thenReturn(new ArrayList<>());
-
         assertEquals(new ArrayList<>(), artistService.findAllArtists());
     }
 
 
     @Test
-    public void findAllArtistsTest() {
+    public void findAllArtistsShouldReturnAllArtistsList() {
 
         Mockito.when(artistRepository.findAll()).thenReturn(Arrays.asList(
                 new Artist(1L, "Juuk", "juuk@juuk.com"),
@@ -59,7 +52,7 @@ public class ArtistServiceTest {
     }
 
     @Test
-    public void findOneArtistTest() throws NotFoundException {
+    public void findOneArtistShouldReturnOneArtist() throws NotFoundException {
         Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(new Artist("Banda", "banda@banda.com")));
 
         Artist artist = artistService.findArtistById(1l);
@@ -67,49 +60,33 @@ public class ArtistServiceTest {
         assertEquals("Banda", artist.getName());
     }
 
-
     @Test(expected = NotFoundException.class)
-    public void findArtistNotFound() throws NotFoundException {
+    public void findArtistNotFoundShouldThrowException() throws NotFoundException {
         Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.empty());
 
         Artist artist = artistService.findArtistById(1l);
 
-        assertEquals("Banda", artist.getName());
     }
 
 
     @Test
-    public void updateArtistTest() {
+    public void updateArtistShouldUpdateArtist() {
         final Artist artist = new Artist(1L, "Juuk", "juuk@juuk.com");
 
-        given(artistRepository.save(artist)).willReturn(artist);
+        artist.setName("Banda");
+        artistService.updateArtists(artist);
+        assertEquals("Banda", artist.getName());
 
-        final Artist updateArtist = artistService.updateArtists(artist);
-
-
-
-        verify(artistRepository).save(any(Artist.class));
     }
 
     @Test
-    public void deleteArtistTest() {
+    public void deleteArtistShouldDeleteArtist() {
+        final Artist artist = new Artist(1L, "Juuk", "juuk@juuk.com");
+        List<Artist> artistList = Arrays.asList(artist);
+        Long artistId = artist.getId();
+        Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
+        artistService.deleteArtist(artistId);
 
-        Artist artist = new Artist(1L,"Voila","voila@voila.com");
-//        artistService.createArtist(artist);
-        artistRepository.save(artist);
-
-        artistService.deleteArtist(1L);
-        verify(artistRepository, times(1)).delete(artist);
-
-    }
-
-//    @Test
-//    public void createdArtistHasNameTest() {
-//
-//        Artist artist = new Artist(1L,"Voila","voila@voila.com");
-//        when(artistRepository.save(artist)).thenReturn(artist);
-//        artistService.createArtist(artist);
-//        assertEquals(1L, result.getId());
-//        assertEquals("Todo Sample 8", result.getText());
-//        assertEquals(true, result.isCompleted());
+        verify(artistRepository, times(1)).deleteById(artistId);
+        }
 }

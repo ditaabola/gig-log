@@ -24,31 +24,31 @@ import java.util.List;
 @WebAppConfiguration
 public class ArtistServiceImplIntegrationTest {
 
-    @Autowired
-    private ArtistService artistService;
-
-    @Autowired
-    private ManagerService managerService;
-
-    private static final List<Artist> artistList = new ArrayList<>();
-    private static final List<Manager> managerList = new ArrayList<>();
-
-    @BeforeClass
-    public static void setUp() {
-        Artist juuk = new Artist("Juuk", "juuk@juuk.com");
-        Artist manta = new Artist("Manta", "manta@manta.com");
-        Artist sniedze = new Artist("Sniedze", "sniedze@sniedze.com");
-
-        Manager manager = new Manager("John", "Manager", "john@manager.com");
-
-        artistList.add(juuk);
-        artistList.add(manta);
-        artistList.add(sniedze);
-
-        juuk.addManagers(manager);
+//    @Autowired
+//    private ArtistService artistService;
+//
+//    @Autowired
+//    private ManagerService managerService;
+//
+//    private static final List<Artist> artistList = new ArrayList<>();
+//    private static final List<Manager> managerList = new ArrayList<>();
+//
+//    @BeforeClass
+//    public static void setUp() {
+//        Artist juuk = new Artist("Juuk", "juuk@juuk.com");
+//        Artist manta = new Artist("Manta", "manta@manta.com");
+//        Artist sniedze = new Artist("Sniedze", "sniedze@sniedze.com");
+//
+//        Manager manager = new Manager("John", "Manager", "john@manager.com");
+//
+//        artistList.add(juuk);
+//        artistList.add(manta);
+//        artistList.add(sniedze);
+//
+//        juuk.addManagers(manager);
 //
 //    }
-    }
+   // }
 
 
 }

@@ -61,9 +61,14 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public void deleteArtist(Long id) {
-        final Optional<Artist> artist = artistRepository.findById(id);
-        artistRepository.deleteById(artist.get().getId());
+    public Artist deleteArtist(Long id) {
+        Artist artist = null;
+        Optional optional = artistRepository.findById(id);
+        if (optional.isPresent()) {
+            artist = artistRepository.findById(id).get();
+            artistRepository.deleteById(id);
+        }
+        return artist;
     }
 
     @Override
