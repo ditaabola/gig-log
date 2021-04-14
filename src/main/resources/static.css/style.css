@@ -4,8 +4,7 @@ html {
 
 body {
     font-family: 'DejaVu Sans', Arial, Helvetica;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
+    background-color: #ffffff;    
     margin: 0px auto;
     padding: 20px 20px;
     width: 850px;
@@ -15,11 +14,14 @@ p{
     font-size: 30px;
     margin-top: 100px;
     margin-bottom: 30px;
-    align-content: center;
+    display:block;
+	position:relative;
 }
 
 h2 {
     font-size: 35px;
     margin-top: 100px;
     margin-bottom: 30px;
+    display:block;
+	position:relative;
 }

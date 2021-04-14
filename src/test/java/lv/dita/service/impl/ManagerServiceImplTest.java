@@ -2,62 +2,67 @@ package lv.dita.service.impl;
 
 import lv.dita.model.Manager;
 import lv.dita.repositories.ManagerRepository;
-import lv.dita.service.ManagerService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import static org.junit.Assert.assertEquals;
+import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ManagerServiceImplTest {
-
-    @InjectMocks
-    private ManagerServiceImpl managerService;
+@ExtendWith(MockitoExtension.class)
+class ManagerServiceImplTest {
 
     @Mock
-    private ManagerRepository managerRepository;
+    private ManagerRepository managerRepositoryMock;
 
+    @InjectMocks
+    private ManagerServiceImpl managertServiceMock;
+
+    @Mock
+    Manager manager = new Manager (1l, "John", "Manager", "juuk@juuk.com");
+    Manager manager2 = new Manager(2l, "Jake", "Jamanger", "manta@manta.com");
 
     @Test
-    public void testIfEmptyListReturnedWhenNoManagersCreated() {
-        Mockito.when(managerRepository.findAll()).thenReturn(new ArrayList<>());
-            assertEquals(new ArrayList<>(), managerService.findAllManagers());
+    void findAllManager() {
+        when(managerRepositoryMock.findAll()).thenReturn(Arrays.asList(manager, manager2));
+        assertEquals(2, managertServiceMock.findAllManagers().size());
     }
 
     @Test
-    public void testIfFindAllReturnsAllCreatedManagers() {
+    void findEmptyListIfNoManagers() {
+        when(managerRepositoryMock.findAll()).thenReturn(new ArrayList<>());
+        assertEquals(0, managertServiceMock.findAllManagers().size());
+    }
 
-        Mockito.when(managerRepository.findAll()).thenReturn(Arrays.asList(
-                new Manager(1L, "John", "Manager", "john@manager.com"),
-                new Manager(2L, "Jane", "Manager","jane@manager.com"),
-                new Manager(3L, "Jake", "Manager", "jake@manager.com")
-        ));
+    @Test
+    void findManagerById() {
+        Long id = 2l;
+        when(managerRepositoryMock.findById(id)).thenReturn(Optional.of(manager2));
+        assertEquals(manager2.getName(), managertServiceMock.findManagerById(id).getName());
+    }
 
-        List<Manager> allManagersList = managerService.findAllManagers();
-
-        assertEquals(3, allManagersList.size());
-        assertEquals("John", allManagersList.get(0).getName());
-        assertEquals("Manager", allManagersList.get(1).getSurname());
-        assertEquals("jake@manager.com", allManagersList.get(2).getEmail());
+    @Test
+    void createManagers() {
+        Manager createManager = new Manager(1l, "Sniedze", "Selfe", "sniedze@sniedze.juuk");
+        Long id = createManager.getId();
+        managerRepositoryMock.save(createManager);
+        managerRepositoryMock.save(manager2);
+        when(managerRepositoryMock.findById(id)).thenReturn(Optional.of(createManager));
+        assertEquals("Sniedze", managertServiceMock.findManagerById(id).getName());
 
     }
 
     @Test
-    public void createManager() {
+    void updateManagers() {
+        Long id = 2l;
+        when(managerRepositoryMock.findById(id)).thenReturn(Optional.of(manager2));
+        manager2.setName("NewManager");
+        managerRepositoryMock.save(manager2);
+        assertEquals("NewManager", managertServiceMock.findManagerById(id).getName());
     }
-
-    @Test
-    public void updateManager() {
-    }
-
-    @Test
-    public void deleteManager() {
-    }
-
 }

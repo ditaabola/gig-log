@@ -11,20 +11,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GigTest {
 
+    private final Gig gig = new Gig(LocalDate.now(), GigType.PRIVATE_GIG);
+
     @Test
     void setDate() {
-        Gig gig = new Gig();
-        LocalDate date = LocalDate.now();
+        LocalDate date = LocalDate.of(2020, 1, 11);
         gig.setDate(date);
-        assertEquals (LocalDate.now(), gig.getDate());
+        assertEquals (date, gig.getDate());
+    }
 
+    @Test
+    void getDate() {
+        LocalDate date = gig.getDate();
+        assertEquals (LocalDate.now(), date);
     }
 
     @Test
     void setType() {
-        Gig gig = new Gig();
-        gig.setType(GigType.PRIVATE_GIG);
-        assertEquals("Private gig", gig.getType().getDisplayValue());
+        gig.setType(GigType.CORPORATE_GIG);
+        assertEquals("Corporate gig", gig.getType().getDisplayValue());
 
+    }
+
+    @Test
+    void getType() {
+        String type = gig.getType().getDisplayValue();
+        assertEquals("Private gig", type);
     }
 }

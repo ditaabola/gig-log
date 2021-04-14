@@ -1,7 +1,6 @@
 package lv.dita.controllers;
 
 import lv.dita.model.Manager;
-import lv.dita.exception.NotFoundException;
 import lv.dita.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 public class ManagerController {
 
     private final ManagerService managerService;
+
+    private static final String MANAGERS = "managers";
+    private static final String MANAGER = "manager";
 
     @Autowired
     public ManagerController (ManagerService managerService) {
@@ -24,26 +24,23 @@ public class ManagerController {
 
     @GetMapping("/managers")
     public String findAllManagers(Model model) {
-        final List<Manager> managers = managerService.findAllManagers();
 
-        model.addAttribute("managers", managers);
+        model.addAttribute(MANAGERS, managerService.findAllManagers());
         return "list-managers";
     }
 
     @GetMapping("/manager/{id}")
-    public String findManagerById(@PathVariable("id") Long id, Model model) throws NotFoundException {
+    public String findManagerById(@PathVariable("id") Long id, Model model) {
 
-        final Manager manager = managerService.findManagerById(id);
-
-        model.addAttribute("manager", manager);
+        model.addAttribute(MANAGER, managerService.findManagerById(id));
         return "list-manager";
+
     }
 
     @GetMapping("/updateManager/{id}")
-    public String showUpdateForm(@PathVariable("id") Long id, Model model) throws NotFoundException {
-        final Manager manager = managerService.findManagerById(id);
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 
-        model.addAttribute("manager", manager);
+        model.addAttribute(MANAGER, managerService.findManagerById(id));
         return "update-manager";
     }
 
@@ -54,12 +51,15 @@ public class ManagerController {
             return "update-manager";
         }
         managerService.updateManager(manager);
-        model.addAttribute("manager", managerService.findAllManagers());
+        model.addAttribute(MANAGER, managerService.findAllManagers());
         return "redirect:/managers";
     }
 
     @GetMapping("/addManager")
-    public String showCreateForm(Manager manager) {
+    public String showCreateForm(Model model) {
+        Manager newManager = new Manager();
+
+        model.addAttribute(MANAGER, newManager);
         return "add-manager";
     }
 
@@ -69,7 +69,7 @@ public class ManagerController {
             return "add-manager";
         }
         managerService.createManager(manager);
-        model.addAttribute("manager", managerService.findAllManagers());
+        model.addAttribute(MANAGER, managerService.findAllManagers());
         return "redirect:/managers";
     }
 
@@ -78,9 +78,8 @@ public class ManagerController {
     public String deleteManager(@PathVariable("id") Long id, Model model) {
         managerService.deleteManager(id);
 
-        model.addAttribute("manager", managerService.findAllManagers());
+        model.addAttribute(MANAGER, managerService.findAllManagers());
         return "redirect:/managers";
     }
-
 
 }

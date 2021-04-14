@@ -6,28 +6,40 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ManagerTest {
 
+    private final Manager manager = new Manager("Jake", "Jamanger", "jake@manager.com");
+
     @Test
     void setName() {
-        Manager manager = new Manager();
         manager.setName("John");
         assertEquals("John", manager.getName());
     }
 
     @Test
     void getName() {
-        Manager manager = new Manager("Jane", "Manager", "jane@manager.com");
-        assertEquals("Jane", manager.getName());
+        String name = manager.getName();
+        assertEquals("Jake", name);
+    }
+
+    @Test
+    void setSurname() {
+        manager.setSurname("Bravo");
+        assertEquals("Bravo", manager.getSurname());
     }
 
     @Test
     void getSurname() {
-        Manager manager = new Manager("Jake", "Jamanger", "jake@manager.com");
-        assertEquals("Jamanger", manager.getSurname());
+        String surname = manager.getSurname();
+        assertEquals("Jamanger", surname);
     }
 
     @Test
+    void setEmail() {
+        manager.setEmail("this@email.com");
+        assertEquals("this@email.com", manager.getEmail());
+    }
+    @Test
     void getEmail() {
-        Manager manager = new Manager("Jake", "Jamanger", "jake@manager.com");
-        assertEquals("jake@manager.com", manager.getEmail());
+        String email = manager.getEmail();
+        assertEquals("jake@manager.com", email);
     }
 }

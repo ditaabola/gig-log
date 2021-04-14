@@ -1,8 +1,6 @@
 package lv.dita.controllers;
 
-import lv.dita.model.Artist;
 import lv.dita.model.Gig;
-import lv.dita.model.Venue;
 import lv.dita.exception.NotFoundException;
 import lv.dita.service.ArtistService;
 import lv.dita.service.GigService;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @Controller
 public class GigController {
@@ -20,6 +17,11 @@ public class GigController {
     private final GigService gigService;
     private final VenueService venueService;
     private final ArtistService artistService;
+
+    private static final String GIGS = "gigs";
+    private static final String GIG = "gig";
+    private static final String VENUES = "venues";
+    private static final String ARTISTS = "artists";
 
     @Autowired
     public GigController(GigService gigService, VenueService venueService, ArtistService artistService) {
@@ -30,30 +32,28 @@ public class GigController {
 
     @GetMapping("/gigs")
     public String findAllGigs(Model model) {
-        final List<Gig> gigs = gigService.findAllGigs();
-        final List<Venue> venues = venueService.findAllVenues();
-        final List<Artist> artists = artistService.findAllArtists();
 
-        model.addAttribute("gigs", gigs);
-        model.addAttribute("venues", venues);
-        model.addAttribute("artists", artists);
+        model.addAttribute(GIGS, gigService.findAllGigs());
+        model.addAttribute(VENUES, venueService.findAllVenues());
+        model.addAttribute(ARTISTS, artistService.findAllArtists());
         return "list-gigs";
     }
 
     @GetMapping("/gig/{id}")
-    public String findGigById(@PathVariable("id") Long id, Model model) throws NotFoundException {
+    public String findGigById(@PathVariable("id") Long id, Model model){
 
-        final Gig gig = gigService.findGigById(id);
-
-        model.addAttribute("gig", gig);
+        model.addAttribute(GIG, gigService.findGigById(id));
         return "list-gig";
     }
 
 
     @GetMapping("/addGig")
-    public String showCreateForm(Gig gig, Model model) {
-        model.addAttribute("venues", venueService.findAllVenues());
-        model.addAttribute("artists", artistService.findAllArtists());
+    public String showCreateForm(Model model) {
+        Gig newGig = new Gig();
+
+        model.addAttribute(GIG, newGig);
+        model.addAttribute(VENUES, venueService.findAllVenues());
+        model.addAttribute(ARTISTS, artistService.findAllArtists());
 
         return "add-gig";
     }
@@ -64,19 +64,16 @@ public class GigController {
             return "add-gig";
         }
         gigService.createGig(gig);
-        model.addAttribute("gig", gigService.findAllGigs());
+        model.addAttribute(GIG, gigService.findAllGigs());
         return "redirect:/gigs";
     }
 
 
     @GetMapping(value="/updateGig/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) throws NotFoundException {
-        final Gig gig = gigService.findGigById(id);
-
-        model.addAttribute("gig", gig);
-
-        model.addAttribute("venues", venueService.findAllVenues());
-        model.addAttribute("artists", artistService.findAllArtists());
+        model.addAttribute(GIG, gigService.findGigById(id));
+        model.addAttribute(VENUES, venueService.findAllVenues());
+        model.addAttribute(ARTISTS, artistService.findAllArtists());
         return "update-gig";
     }
 
@@ -87,7 +84,7 @@ public class GigController {
             return "update-gig";
         }
         gigService.updateGig(gig);
-        model.addAttribute("gig", gigService.findAllGigs());
+        model.addAttribute(GIG, gigService.findAllGigs());
         return "redirect:/gigs";
     }
 
@@ -97,7 +94,7 @@ public class GigController {
     public String deleteGig(@PathVariable("id") Long id, Model model) {
         gigService.deleteGig(id);
 
-        model.addAttribute("venue", gigService.findAllGigs());
+        model.addAttribute(GIG, gigService.findAllGigs());
         return "redirect:/gigs";
     }
 }

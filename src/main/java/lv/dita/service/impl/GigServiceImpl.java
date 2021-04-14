@@ -2,14 +2,12 @@ package lv.dita.service.impl;
 
 import lv.dita.model.Gig;
 import lv.dita.exception.NotFoundException;
-import lv.dita.model.Venue;
 import lv.dita.repositories.GigRepository;
 import lv.dita.service.GigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GigServiceImpl implements GigService {
@@ -33,15 +31,9 @@ public class GigServiceImpl implements GigService {
     }
 
     @Override
-    public Gig findGigById(Long id) throws NotFoundException {
-        Optional<Gig> optional = gigRepository.findById(id);
-        Gig gig;
-        if (optional.isPresent()) {
-            gig = optional.get();
-        } else {
-            throw new NotFoundException(String.format("Gig not found with ID %d", id));
-        }
-        return gig;
+    public Gig findGigById(Long id) {
+        return gigRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Gig not found with ID %d", id)));
     }
 
     @Override

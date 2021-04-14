@@ -2,15 +2,13 @@ package lv.dita.service.impl;
 
 import lv.dita.model.Artist;
 import lv.dita.exception.NotFoundException;
-import lv.dita.model.Venue;
 import lv.dita.repositories.ArtistRepository;
 import lv.dita.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class ArtistServiceImpl implements ArtistService {
@@ -24,7 +22,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public List<Artist> findAllArtists() {
-        List<Artist> artistList = (List<Artist>) artistRepository.findAll();
+        List<Artist> artistList = artistRepository.findAll();
 
         if (!artistList.isEmpty()) {
             return artistList;
@@ -34,25 +32,19 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public Artist findArtistById(Long id) throws NotFoundException {
-        Optional<Artist> optional = artistRepository.findById(id);
-        Artist artist;
-        if (optional.isPresent()) {
-            artist = optional.get();
-        } else {
-            throw new NotFoundException(String.format("Artist not found with ID %d", id));
-        }
-        return artist;
+    public Artist findArtistById(Long id) {
+        return artistRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Artist not found with ID %d", id)));
     }
 
     @Override
-    public Artist createArtist(Artist artist) {
-        return artistRepository.save(artist);
+    public void createArtist(Artist artist) {
+            artistRepository.save(artist);
     }
 
     @Override
-    public Artist updateArtists(Artist artist) {
-        return artistRepository.save(artist);
+    public void updateArtists(Artist artist) {
+            artistRepository.save(artist);
     }
 
     @Override

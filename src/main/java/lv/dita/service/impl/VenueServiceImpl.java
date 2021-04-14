@@ -7,7 +7,6 @@ import lv.dita.service.VenueService;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VenueServiceImpl implements VenueService {
@@ -30,15 +29,9 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
-    public Venue findVenueById(Long id) throws NotFoundException {
-        Optional<Venue> optional = venueRepository.findById(id);
-        Venue venue;
-        if (optional.isPresent()) {
-            venue = optional.get();
-        } else {
-            throw new NotFoundException (String.format("Venue not found with ID %d", id));
-        }
-        return venue;
+    public Venue findVenueById(Long id) {
+        return venueRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Venue not found with ID %d", id)));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package lv.dita.controllers;
 
 import lv.dita.model.Venue;
-import lv.dita.exception.NotFoundException;
 import lv.dita.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 public class VenueController {
 
     private final VenueService venueService;
+
+    private static final String VENUE = "venue";
+    private static final String VENUES = "venues";
 
     @Autowired
     public VenueController(VenueService venueService) {
@@ -23,26 +23,22 @@ public class VenueController {
 
     @GetMapping("/venues")
     public String findAllVenues(Model model) {
-        final List<Venue> venues = venueService.findAllVenues();
 
-        model.addAttribute("venues", venues);
+        model.addAttribute(VENUES, venueService.findAllVenues());
         return "list-venues";
     }
 
     @GetMapping("/venue/{id}")
-    public String findVenue(@PathVariable("id") Long id, Model model) throws NotFoundException {
+    public String findVenueById(@PathVariable("id") Long id, Model model) {
 
-        final Venue venue = venueService.findVenueById(id);
-
-        model.addAttribute("venue", venue);
+        model.addAttribute(VENUE, venueService.findVenueById(id));
         return "list-venue";
     }
 
     @GetMapping("/updateVenue/{id}")
-    public String showUpdateForm(@PathVariable("id") Long id, Model model) throws NotFoundException {
-        final Venue venue = venueService.findVenueById(id);
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 
-        model.addAttribute("venue", venue);
+        model.addAttribute(VENUE, venueService.findVenueById(id));
         return "update-venue";
     }
 
@@ -53,12 +49,16 @@ public class VenueController {
             return "update-venue";
         }
         venueService.updateVenue(venue);
-        model.addAttribute("venue", venueService.findAllVenues());
+        model.addAttribute(VENUE, venueService.findAllVenues());
         return "redirect:/venues";
     }
 
     @GetMapping("/addVenue")
-    public String showCreateForm(Venue venue) {
+    public String showCreateForm(Model model) {
+        Venue newVenue = new Venue();
+
+        model.addAttribute(VENUE, newVenue);
+
         return "add-venue";
     }
 
@@ -68,7 +68,7 @@ public class VenueController {
             return "add-venue";
         }
         venueService.createVenue(venue);
-        model.addAttribute("venue", venueService.findAllVenues());
+        model.addAttribute(VENUE, venueService.findAllVenues());
         return "redirect:/venues";
     }
 
@@ -77,7 +77,7 @@ public class VenueController {
     public String deleteVenue(@PathVariable("id") Long id, Model model) {
         venueService.deleteVenue(id);
 
-        model.addAttribute("venue", venueService.findAllVenues());
+        model.addAttribute(VENUE, venueService.findAllVenues());
         return "redirect:/venues";
     }
 }

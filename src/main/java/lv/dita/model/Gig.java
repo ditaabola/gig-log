@@ -21,12 +21,12 @@ public class Gig {
     private LocalDate date;
     private GigType type;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-        @JoinTable(name = "gigs_venues", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "venue_id") })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "gigs_venues", joinColumns = {@JoinColumn(name = "gig_id")}, inverseJoinColumns = {@JoinColumn(name = "venue_id")})
     private Set<Venue> venues = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "gigs_artists", joinColumns = { @JoinColumn(name = "gig_id") }, inverseJoinColumns = { @JoinColumn(name = "artist_id") })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "gigs_artists", joinColumns = {@JoinColumn(name = "gig_id")}, inverseJoinColumns = {@JoinColumn(name = "artist_id")})
     private Set<Artist> artists = new HashSet<>();
 
     public Gig() {
@@ -51,7 +51,7 @@ public class Gig {
         this.artists = artists;
     }
 
-        @Override
+    @Override
     public String toString() {
         return "Gig{" +
                 "date=" + date +

@@ -39,6 +39,16 @@ public class Venue {
         this.city = city;
     }
 
+      @Override
+      public String toString() {
+        return "Venue{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
