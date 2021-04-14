@@ -1,0 +1,25 @@
+html {
+    background-color: #f0f0f0;
+}
+
+body {
+    font-family: 'DejaVu Sans', Arial, Helvetica;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    margin: 0px auto;
+    padding: 20px 20px;
+    width: 850px;
+}
+
+p{
+    font-size: 30px;
+    margin-top: 100px;
+    margin-bottom: 30px;
+    align-content: center;
+}
+
+h2 {
+    font-size: 35px;
+    margin-top: 100px;
+    margin-bottom: 30px;
+}

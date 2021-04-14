@@ -1,8 +1,8 @@
 package lv.dita.service.impl;
 
-import lv.dita.model.Artist;
 import lv.dita.model.Manager;
 import lv.dita.exception.NotFoundException;
+import lv.dita.model.Venue;
 import lv.dita.repositories.ManagerRepository;
 import lv.dita.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +57,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public void deleteManager(Long id) {
-        final Optional<Manager> manager = managerRepository.findById(id);
-            managerRepository.deleteById(manager.get().getId());
+        final Manager manager = managerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Manager not found with ID %d", id)));
+
+        managerRepository.deleteById(manager.getId());
     }
 }

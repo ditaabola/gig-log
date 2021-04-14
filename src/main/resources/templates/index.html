@@ -7,21 +7,56 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" media="screen" href="style.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 
 </head>
 
 <body>
-
-<p> Welcome to the Gig log - application to easily log all the gigs of your band!</p>
-
-<p>Please enter your data first:</p>
-<ol>
-    <li class="list-choices"><a href="list-managers.html" th:href="@{/managers}">Managers list</a></li>
-    <li class="list-choices"><a href="list-artists.html" th:href="@{/artists}">Artist list</a></li>
-    <li class="list-choices"><a href="list-venues.html" th:href="@{/venues}">Venues list</a></li>
-    <li class="list-choices"><a href="list-gigs.html" th:href="@{/gigs}">Gig list</a></li>
-</ol>
+<nav th:fragment= "header" class="navbar navbar-expand-lg navbar-dark" style="background-color: #3A5A81; color: white;">
+    <a class="navbar-brand">Gig Log</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+        <ul class="navbar-nav mr-auto" >
+        </ul>
+    </div>
+</nav>
+<div>
+<h2> Welcome to the Gig log - application to easily log all the gigs of your band! </h2>
+    <p>Please enter your data first:</p>
+</div>
+<div class="container my-2">
+    <div class="card">
+        <div class="card-body">
+            <div th:switch="${managers}" class="container my-5">
+                <p class="my-5">
+                    <a href="/addManager" class="btn btn-primary">
+                        <i class="fas fa-user-plus ml-2">Add Manager </i></a>
+                </p>
+            </div>
+            <div th:switch="${artists}" class="container my-5">
+                <p class="my-5">
+                    <a href="/addArtist" class="btn btn-primary">
+                        <i class="fas fa-user-plus ml-2">Add Artist </i></a>
+                </p>
+            </div>
+            <div th:switch="${venues}" class="container my-5">
+                <p class="my-5">
+                    <a href="/addVenue" class="btn btn-primary">
+                        <i class="fas fa-user-plus ml-2">Add Venue </i></a>
+                </p>
+            </div>
+            <div th:switch="${gigs}" class="container my-5">
+                <p class="my-5">
+                    <a href="/addGig" class="btn btn-primary">
+                        <i class="fas fa-user-plus ml-2">Add Gig </i></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
 </body>
 </html>

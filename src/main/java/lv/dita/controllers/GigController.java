@@ -93,7 +93,7 @@ public class GigController {
 
 
 
-    @GetMapping("/remove-gig/{id}")
+    @GetMapping("/delete-gig/{id}")
     public String deleteGig(@PathVariable("id") Long id, Model model) {
         gigService.deleteGig(id);
 

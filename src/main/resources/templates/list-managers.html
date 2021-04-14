@@ -36,7 +36,7 @@
                                 <td th:text="${manager.surname}"></td>
                                 <td th:text="${manager.email}"></td>
                                 <td><a th:href="@{/updateManager/{id}(id=${manager.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
-                                <td><a th:href="@{/remove-manager/{id}(id=${manager.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
+                                <td><a th:href="@{/delete-manager/{id}(id=${manager.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
                             </tr>
                             </tbody>
                         </table>

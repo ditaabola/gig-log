@@ -73,7 +73,7 @@ public class VenueController {
     }
 
 
-    @GetMapping("/remove-venue/{id}")
+    @GetMapping("/delete-venue/{id}")
     public String deleteVenue(@PathVariable("id") Long id, Model model) {
         venueService.deleteVenue(id);
 

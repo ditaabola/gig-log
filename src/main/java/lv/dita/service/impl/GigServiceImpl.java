@@ -2,6 +2,7 @@ package lv.dita.service.impl;
 
 import lv.dita.model.Gig;
 import lv.dita.exception.NotFoundException;
+import lv.dita.model.Venue;
 import lv.dita.repositories.GigRepository;
 import lv.dita.service.GigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,9 @@ public class GigServiceImpl implements GigService {
 
     @Override
     public void deleteGig(Long id) {
-       final Optional<Gig> gig = gigRepository.findById(id);
-            gigRepository.deleteById(gig.get().getId());
+        final Gig gig = gigRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Gig not found with ID %d", id)));
+
+        gigRepository.deleteById(gig.getId());
     }
 }

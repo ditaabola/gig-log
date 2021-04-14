@@ -53,8 +53,9 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public void deleteVenue(Long id) {
-       final Optional<Venue> venue = venueRepository.findById(id);
-            venueRepository.deleteById(venue.get().getId());
+        final Venue venue = venueRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Venue not found with ID %d", id)));
 
+        venueRepository.deleteById(venue.getId());
     }
 }

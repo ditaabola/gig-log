@@ -2,6 +2,7 @@ package lv.dita.service.impl;
 
 import lv.dita.model.Artist;
 import lv.dita.exception.NotFoundException;
+import lv.dita.model.Venue;
 import lv.dita.repositories.ArtistRepository;
 import lv.dita.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ArtistServiceImpl implements ArtistService {
     public List<Artist> findAllArtists() {
         List<Artist> artistList = (List<Artist>) artistRepository.findAll();
 
-        if(!artistList.isEmpty()) {
+        if (!artistList.isEmpty()) {
             return artistList;
         } else {
             return new ArrayList<>();
@@ -39,7 +40,7 @@ public class ArtistServiceImpl implements ArtistService {
         if (optional.isPresent()) {
             artist = optional.get();
         } else {
-            throw new NotFoundException (String.format("Artist not found with ID %d", id));
+            throw new NotFoundException(String.format("Artist not found with ID %d", id));
         }
         return artist;
     }
@@ -56,8 +57,10 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public void deleteArtist(Long id) {
-        final Optional<Artist> artist = artistRepository.findById(id);
-            artistRepository.deleteById(artist.get().getId());
-    }
+        final Artist artist = artistRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Artist not found with ID %d", id)));
 
+        artistRepository.deleteById(artist.getId());
+
+    }
 }

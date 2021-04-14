@@ -74,7 +74,7 @@ public class ManagerController {
     }
 
 
-    @GetMapping("/remove-manager/{id}")
+    @GetMapping("/delete-manager/{id}")
     public String deleteManager(@PathVariable("id") Long id, Model model) {
         managerService.deleteManager(id);
 
