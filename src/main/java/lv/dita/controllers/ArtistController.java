@@ -42,7 +42,6 @@ public class ArtistController {
         return "list-artist";
     }
 
-
     @GetMapping(value="/addArtist")
     public String showCreateForm(Model model) {
         Artist newArtist = new Artist();

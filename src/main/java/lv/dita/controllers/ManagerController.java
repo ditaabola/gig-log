@@ -44,7 +44,7 @@ public class ManagerController {
         return "update-manager";
     }
 
-    @PostMapping(value = "/update-manager/{id}")
+    @PostMapping("/update-manager/{id}")
     public String updateManager(@PathVariable("id") Long id, Manager manager, BindingResult result, Model model) {
         if (result.hasErrors()) {
             manager.setId(id);
