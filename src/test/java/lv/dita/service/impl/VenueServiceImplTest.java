@@ -1,7 +1,7 @@
 package lv.dita.service.impl;
 
 import lv.dita.enums.VenueType;
-import lv.dita.model.Venue;
+import lv.dita.domain.Venue;
 import lv.dita.repositories.VenueRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,8 +25,8 @@ class VenueServiceImplTest {
     private VenueServiceImpl venueServiceMock;
 
     @Mock
-    Venue venue = new Venue(1l, "Depo", VenueType.PRIVATE_VENUE, "Latvia", "Riga");
-    Venue venue2 = new Venue(2l, "Fontaine", VenueType.ALTERNATIVE_CLUB, "Latvia", "Liepaja");
+    Venue venue = new Venue();
+    Venue venue2 = new Venue();
 
     @Test
     void findAllVenues() {
@@ -49,7 +49,7 @@ class VenueServiceImplTest {
 
     @Test
     void createVenue() {
-        Venue createdVenue = new Venue(3L, "LMA", VenueType.PRIVATE_VENUE, "Jelgava", "Riga");
+        Venue createdVenue = new Venue();
         Long id = createdVenue.getId();
         venueRepositoryMock.save(createdVenue);
         when(venueRepositoryMock.findById(id)).thenReturn(Optional.of(createdVenue));

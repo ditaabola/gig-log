@@ -1,7 +1,11 @@
 package lv.dita.repositories;
 
-import lv.dita.model.Manager;
-import org.springframework.data.repository.CrudRepository;
 
-public interface ManagerRepository extends CrudRepository<Manager, Long> {
+import lv.dita.domain.Manager;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+public interface ManagerRepository extends JpaRepository<Manager, Long> {
+    List<Manager> findByName(String name);
 }

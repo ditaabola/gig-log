@@ -1,6 +1,6 @@
 package lv.dita.service.impl;
 
-import lv.dita.model.Artist;
+import lv.dita.domain.Artist;
 import lv.dita.repositories.ArtistRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,8 +24,8 @@ class ArtistServiceImplTest {
     private ArtistServiceImpl artistServiceMock;
 
     @Mock
-    Artist artist = new Artist(1l, "Juuk", "juuk@juuk.com");
-    Artist artist2 = new Artist(2l, "Manta", "manta@manta.com");
+    Artist artist = new Artist();
+    Artist artist2 = new Artist();
     Artist artist3 = new Artist();
 
     @Test
@@ -49,7 +49,7 @@ class ArtistServiceImplTest {
 
     @Test
     void createArtists() {
-        Artist createdArtist = new Artist(1l, "Sniedze", "sniedze@sniedze.juuk");
+        Artist createdArtist = new Artist();
         Long id = createdArtist.getId();
         artistRepositoryMock.save(createdArtist);
         when(artistRepositoryMock.findById(id)).thenReturn(Optional.of(createdArtist));

@@ -1,6 +1,6 @@
 package lv.dita.service.impl;
 
-import lv.dita.model.Gig;
+import lv.dita.domain.Gig;
 import lv.dita.exception.NotFoundException;
 import lv.dita.repositories.GigRepository;
 import lv.dita.service.GigService;

@@ -1,7 +1,7 @@
 package lv.dita.service.impl;
 
 import lv.dita.enums.GigType;
-import lv.dita.model.Gig;
+import lv.dita.domain.Gig;
 import lv.dita.repositories.GigRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,8 +25,8 @@ class GigServiceImplTest {
     private GigServiceImpl gigServiceMock;
 
     @Mock
-    Gig gig = new Gig (1l, LocalDate.of(2020, 1, 1), GigType.CORPORATE_GIG);
-    Gig gig2= new Gig (2l, LocalDate.of(2020, 1, 2), GigType.LIVE_CONCERT);
+    Gig gig = new Gig ();
+    Gig gig2= new Gig ();
 
     @Test
     void findAllGigs() {
@@ -49,7 +49,7 @@ class GigServiceImplTest {
 
     @Test
     void createGigs() {
-        Gig createdGig = new Gig(LocalDate.of(2020, 3,3), GigType.LIVE_CONCERT);
+        Gig createdGig = new Gig();
         Long id = createdGig.getId();
         gigRepositoryMock.save(createdGig);
         when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(createdGig));

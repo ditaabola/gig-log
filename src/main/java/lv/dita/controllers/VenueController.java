@@ -1,6 +1,6 @@
 package lv.dita.controllers;
 
-import lv.dita.model.Venue;
+import lv.dita.domain.Venue;
 import lv.dita.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

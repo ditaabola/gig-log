@@ -1,7 +1,9 @@
 package lv.dita.service;
 
-import lv.dita.model.Manager;
+import lv.dita.domain.Manager;
 import lv.dita.exception.NotFoundException;
+import lv.dita.model.ManagerDTO;
+
 import java.util.List;
 
 public interface ManagerService {

@@ -1,7 +1,10 @@
 package lv.dita.repositories;
 
-import lv.dita.model.Venue;
-import org.springframework.data.repository.CrudRepository;
+import lv.dita.domain.Venue;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface VenueRepository extends CrudRepository<Venue, Long> {
+import java.util.List;
+
+public interface VenueRepository extends JpaRepository<Venue, Long> {
+    List<Venue> findByName(String name);
 }

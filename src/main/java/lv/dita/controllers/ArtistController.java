@@ -1,9 +1,14 @@
 package lv.dita.controllers;
 
-import lv.dita.model.Artist;
+import lv.dita.domain.Artist;
 import lv.dita.exception.NotFoundException;
+import lv.dita.domain.Manager;
+import lv.dita.model.ArtistDTO;
+import lv.dita.repositories.ArtistRepository;
+import lv.dita.repositories.ManagerRepository;
 import lv.dita.service.ArtistService;
-import lv.dita.service.ManagerService;
+import lv.dita.service.impl.ArtistServiceImpl;
+import lv.dita.service.impl.ManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,20 +18,24 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ArtistController {
 
-    private final ArtistService artistService;
-    private final ManagerService managerService;
+    private final ArtistServiceImpl artistService;
+    private final ManagerServiceImpl managerService;
 
+//    private final ArtistService artistService;
+//    private final ManagerService managerService;
+//
     private static final String MANAGERS = "managers";
     private static final String ARTIST = "artist";
     private static final String ARTISTS = "artists";
 
     @Autowired
-    public ArtistController(ArtistService artistService, ManagerService managerService) {
+    public ArtistController(ArtistServiceImpl artistService, ManagerServiceImpl managerService) {
         this.artistService = artistService;
         this.managerService = managerService;
+
     }
 
-    @GetMapping("/artists")
+    @RequestMapping("/artists")
     public String findAllArtists(Model model) {
 
         model.addAttribute(ARTISTS, artistService.findAllArtists());
@@ -34,44 +43,39 @@ public class ArtistController {
         return "list-artists";
     }
 
-    @GetMapping("/artist/{id}")
+    @RequestMapping("/artist/{id}")
     public String findArtistById(@PathVariable("id") Long id, Model model) {
-        final Artist artist = artistService.findArtistById(id);
+        model.addAttribute(ARTIST, artistService.findArtistById(id));
 
-        model.addAttribute(ARTIST, artist);
         return "list-artist";
     }
 
-    @GetMapping(value="/addArtist")
+    @RequestMapping(value="/addArtist")
     public String showCreateForm(Model model) {
-        Artist newArtist = new Artist();
+        Artist  artist = new Artist();
 
-        model.addAttribute(ARTIST, newArtist);
+        model.addAttribute(ARTIST, artist);
         model.addAttribute(MANAGERS, managerService.findAllManagers());
         return "add-artist";
     }
 
-    @PostMapping("/add-artist")
-    public String createArtist (Artist newArtist, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "add-artist";
-        }
-        artistService.createArtist(newArtist);
+    @RequestMapping("/add-artist")
+    public String createArtist (Artist artist, BindingResult result, Model model) {
+
+        artistService.createArtist(artist);
         model.addAttribute(ARTIST, artistService.findAllArtists());
         return "redirect:/artists";
     }
 
 
-    @GetMapping(value="/updateArtist/{id}")
-    public String showUpdateForm(@PathVariable("id") Long id, Model model) throws NotFoundException {
-        final Artist foundArtist = artistService.findArtistById(id);
-
-        model.addAttribute(ARTIST, foundArtist);
+    @RequestMapping(value="/updateArtist/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute(ARTIST, artistService.findArtistById(id));
         model.addAttribute(MANAGERS, managerService.findAllManagers());
         return "update-artist";
     }
 
-    @PostMapping("/update-artist/{id}")
+    @RequestMapping("/update-artist/{id}")
     public String updateArtist(@PathVariable("id") Long id, Artist artistToUpdate, BindingResult result, Model model) {
         if (result.hasErrors()) {
             artistToUpdate.setId(id);
@@ -82,11 +86,10 @@ public class ArtistController {
         return "redirect:/artists";
     }
 
-    @GetMapping("/delete-artist/{id}")
+    @RequestMapping("/delete-artist/{id}")
     public String deleteArtist(@PathVariable("id") Long id, Model model) {
         artistService.deleteArtist(id);
-
-        model.addAttribute(ARTIST, artistService.findAllArtists());
+        model.addAttribute(ARTISTS, artistService.findAllArtists());
         return "redirect:/artists";
     }
 

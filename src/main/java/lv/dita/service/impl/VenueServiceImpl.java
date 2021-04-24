@@ -1,7 +1,7 @@
 package lv.dita.service.impl;
 
 import lv.dita.exception.NotFoundException;
-import lv.dita.model.Venue;
+import lv.dita.domain.Venue;
 import lv.dita.repositories.VenueRepository;
 import lv.dita.service.VenueService;
 import org.springframework.stereotype.Service;

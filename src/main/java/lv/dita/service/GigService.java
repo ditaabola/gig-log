@@ -1,6 +1,6 @@
 package lv.dita.service;
 
-import lv.dita.model.Gig;
+import lv.dita.domain.Gig;
 import lv.dita.exception.NotFoundException;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package lv.dita.service.impl;
 
-import lv.dita.model.Manager;
+import lv.dita.domain.Manager;
 import lv.dita.repositories.ManagerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,8 +24,8 @@ class ManagerServiceImplTest {
     private ManagerServiceImpl managertServiceMock;
 
     @Mock
-    Manager manager = new Manager (1l, "John", "Manager", "juuk@juuk.com");
-    Manager manager2 = new Manager(2l, "Jake", "Jamanger", "manta@manta.com");
+    Manager manager = new Manager ();
+    Manager manager2 = new Manager();
 
     @Test
     void findAllManager() {
@@ -48,7 +48,7 @@ class ManagerServiceImplTest {
 
     @Test
     void createManagers() {
-        Manager createManager = new Manager(1l, "Sniedze", "Selfe", "sniedze@sniedze.juuk");
+        Manager createManager = new Manager();
         Long id = createManager.getId();
         managerRepositoryMock.save(createManager);
         managerRepositoryMock.save(manager2);
