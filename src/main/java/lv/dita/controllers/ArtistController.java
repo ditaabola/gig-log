@@ -1,6 +1,7 @@
 package lv.dita.controllers;
 
 import lv.dita.domain.Artist;
+import lv.dita.model.ArtistDTO;
 import lv.dita.service.impl.ArtistServiceImpl;
 import lv.dita.service.impl.ManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ArtistController {
 
     }
 
-    @RequestMapping("/artists")
+    @GetMapping("/artists")
     public String findAllArtists(Model model) {
 
         model.addAttribute(ARTISTS, artistService.findAllArtists());
@@ -34,14 +35,14 @@ public class ArtistController {
         return "list-artists";
     }
 
-    @RequestMapping("/artist/{id}")
+    @GetMapping("/artist/{id}")
     public String findArtistById(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute(ARTIST, artistService.findArtistById(id));
         return "list-artist";
     }
 
-    @RequestMapping(value="/addArtist")
+    @GetMapping(value="/addArtist")
     public String showCreateForm(Model model) {
         Artist  artist = new Artist();
 
@@ -50,34 +51,34 @@ public class ArtistController {
         return "add-artist";
     }
 
-    @RequestMapping("/add-artist")
-    public String createArtist (Artist artist, Model model) {
+    @PostMapping("/add-artist")
+    public String createArtist (ArtistDTO artistDTO, Model model) {
 
-        artistService.createArtist(artist);
+        artistService.createArtist(artistDTO);
         model.addAttribute(ARTIST, artistService.findAllArtists());
         return "redirect:/artists";
     }
 
 
-    @RequestMapping(value="/updateArtist/{id}")
+    @GetMapping(value="/updateArtist/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute(ARTIST, artistService.findArtistById(id));
         model.addAttribute(MANAGERS, managerService.findAllManagers());
         return "update-artist";
     }
 
-    @RequestMapping("/update-artist/{id}")
-    public String updateArtist(@PathVariable("id") Long id, Artist artistToUpdate, BindingResult result, Model model) {
+    @PostMapping("/update-artist/{id}")
+    public String updateArtist(@PathVariable("id") Long id, ArtistDTO artistDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            artistToUpdate.setId(id);
+            artistDTO.setId(id);
             return "update-artist";
         }
-        artistService.updateArtists(artistToUpdate);
+        artistService.updateArtists(id, artistDTO);
         model.addAttribute(ARTIST, artistService.findAllArtists());
         return "redirect:/artists";
     }
 
-    @RequestMapping("/delete-artist/{id}")
+    @GetMapping("/delete-artist/{id}")
     public String deleteArtist(@PathVariable("id") Long id, Model model) {
         artistService.deleteArtist(id);
 

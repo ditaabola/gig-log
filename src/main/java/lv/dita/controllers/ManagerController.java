@@ -1,6 +1,7 @@
 package lv.dita.controllers;
 
 import lv.dita.domain.Manager;
+import lv.dita.model.ManagerDTO;
 import lv.dita.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +23,14 @@ public class ManagerController {
         this.managerService = managerService;
     }
 
-    @RequestMapping("/managers")
+    @GetMapping("/managers")
     public String findAllManagers(Model model) {
 
         model.addAttribute(MANAGERS, managerService.findAllManagers());
         return "list-managers";
     }
 
-    @RequestMapping("/manager/{id}")
+    @GetMapping("/manager/{id}")
     public String findManagerById(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute(MANAGER, managerService.findManagerById(id));
@@ -37,25 +38,25 @@ public class ManagerController {
 
     }
 
-    @RequestMapping("/updateManager/{id}")
+    @GetMapping("/updateManager/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute(MANAGER, managerService.findManagerById(id));
         return "update-manager";
     }
 
-    @RequestMapping("/update-manager/{id}")
-    public String updateManager(@PathVariable("id") Long id, Manager manager, BindingResult result, Model model) {
+    @PostMapping("/update-manager/{id}")
+    public String updateManager(@PathVariable("id") Long id, ManagerDTO managerDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            manager.setId(id);
+            managerDTO.setId(id);
             return "update-manager";
         }
-        managerService.updateManager(manager);
+        managerService.updateManager(id, managerDTO);
         model.addAttribute(MANAGER, managerService.findAllManagers());
         return "redirect:/managers";
     }
 
-    @RequestMapping("/addManager")
+    @GetMapping("/addManager")
     public String showCreateForm(Model model) {
         Manager newManager = new Manager();
 
@@ -63,18 +64,18 @@ public class ManagerController {
         return "add-manager";
     }
 
-    @RequestMapping("/add-manager")
-    public String createManager (Manager manager, BindingResult result, Model model) {
+    @PostMapping("/add-manager")
+    public String createManager (ManagerDTO managerDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-manager";
         }
-        managerService.createManager(manager);
+        managerService.createManager(managerDTO);
         model.addAttribute(MANAGER, managerService.findAllManagers());
         return "redirect:/managers";
     }
 
 
-    @RequestMapping("/delete-manager/{id}")
+    @GetMapping("/delete-manager/{id}")
     public String deleteManager(@PathVariable("id") Long id, Model model) {
         managerService.deleteManager(id);
 
