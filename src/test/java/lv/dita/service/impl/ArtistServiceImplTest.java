@@ -43,6 +43,7 @@ class ArtistServiceImplTest {
     @Test
     void findArtistById() {
         Long id = 2l;
+        artist2.setId(id);
         when(artistRepositoryMock.findById(id)).thenReturn(Optional.of(artist2));
         assertEquals(artist2.getName(), artistServiceMock.findArtistById(id).getName());
     }

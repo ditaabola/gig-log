@@ -93,7 +93,7 @@ public class GigServiceImpl implements GigService {
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "artist not found"));
             gig.setArtist(artist);
         }
-        if (gigDTO.getVenue() != null && (gig.getVenue() == null || !gig.getVenue().getId().equals(gigDTO.getVenue()))) {
+        if (gigDTO.getVenue() != null && (gig.getVenue() == null || !gig.getVenue().getId().equals(gigDTO.getVenue().getId()))) {
             final Venue venue = venueRepository.findById(gigDTO.getVenue().getId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "venue not found"));
             gig.setVenue(venue);

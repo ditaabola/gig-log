@@ -52,7 +52,10 @@ public class ArtistController {
     }
 
     @PostMapping("/add-artist")
-    public String createArtist (ArtistDTO artistDTO, Model model) {
+    public String createArtist (ArtistDTO artistDTO, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "error/500";
+        }
 
         artistService.createArtist(artistDTO);
         model.addAttribute(ARTIST, artistService.findAllArtists());
@@ -71,7 +74,7 @@ public class ArtistController {
     public String updateArtist(@PathVariable("id") Long id, ArtistDTO artistDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
             artistDTO.setId(id);
-            return "update-artist";
+            return "error/500";
         }
         artistService.updateArtists(id, artistDTO);
         model.addAttribute(ARTIST, artistService.findAllArtists());
