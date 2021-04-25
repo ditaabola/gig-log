@@ -30,7 +30,7 @@ public class GigController {
         this.artistService = artistService;
     }
 
-    @GetMapping("/gigs")
+    @RequestMapping("/gigs")
     public String findAllGigs(Model model) {
 
         model.addAttribute(GIGS, gigService.findAllGigs());
@@ -39,7 +39,7 @@ public class GigController {
         return "list-gigs";
     }
 
-    @GetMapping("/gig/{id}")
+    @RequestMapping("/gig/{id}")
     public String findGigById(@PathVariable("id") Long id, Model model){
 
         model.addAttribute(GIG, gigService.findGigById(id));
@@ -47,37 +47,35 @@ public class GigController {
     }
 
 
-    @GetMapping("/addGig")
+    @RequestMapping("/addGig")
     public String showCreateForm(Model model) {
-        Gig newGig = new Gig();
+        Gig gig = new Gig();
 
-        model.addAttribute(GIG, newGig);
+        model.addAttribute(GIG, gig);
         model.addAttribute(VENUES, venueService.findAllVenues());
         model.addAttribute(ARTISTS, artistService.findAllArtists());
 
         return "add-gig";
     }
 
-    @PostMapping(value="/add-gig")
-    public String createGig (Gig gig, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "add-gig";
-        }
+    @RequestMapping(value="/add-gig")
+    public String createGig (Gig gig, Model model) {
+
         gigService.createGig(gig);
         model.addAttribute(GIG, gigService.findAllGigs());
         return "redirect:/gigs";
     }
 
 
-    @GetMapping(value="/updateGig/{id}")
-    public String showUpdateForm(@PathVariable("id") Long id, Model model) throws NotFoundException {
+    @RequestMapping(value="/updateGig/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute(GIG, gigService.findGigById(id));
         model.addAttribute(VENUES, venueService.findAllVenues());
         model.addAttribute(ARTISTS, artistService.findAllArtists());
         return "update-gig";
     }
 
-    @PostMapping(value="/update-gig/{id}")
+    @RequestMapping(value="/update-gig/{id}")
     public String updateGig(@PathVariable("id") Long id, Gig gig, BindingResult result, Model model) {
         if (result.hasErrors()) {
             gig.setId(id);
@@ -90,7 +88,7 @@ public class GigController {
 
 
 
-    @GetMapping("/delete-gig/{id}")
+    @RequestMapping("/delete-gig/{id}")
     public String deleteGig(@PathVariable("id") Long id, Model model) {
         gigService.deleteGig(id);
 

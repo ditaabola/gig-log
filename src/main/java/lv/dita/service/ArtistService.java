@@ -1,7 +1,6 @@
 package lv.dita.service;
 
 import lv.dita.domain.Artist;
-import lv.dita.model.ArtistDTO;
 
 import java.util.List;
 

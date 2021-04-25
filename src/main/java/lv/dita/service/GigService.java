@@ -9,7 +9,7 @@ public interface GigService {
 
     public List<Gig> findAllGigs();
 
-    public Gig findGigById(Long id) throws NotFoundException;
+    public Gig findGigById(Long id);
 
     public void createGig (Gig gig);
 

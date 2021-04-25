@@ -62,7 +62,9 @@ class GigServiceImplTest {
         Long id = 2l;
         when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(gig2));
         gig2.setDate(LocalDate.of(2020, 3, 11));
+        //gig2.getVenue().setName("LMA");
         gigRepositoryMock.save(gig2);
         assertEquals(LocalDate.of(2020, 3, 11), gigServiceMock.findGigById(id).getDate());
+        //assertEquals(1l, gigServiceMock.findGigById(id).getVenue().getId());
     }
 }

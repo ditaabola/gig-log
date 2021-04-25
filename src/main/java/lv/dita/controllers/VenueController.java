@@ -21,28 +21,44 @@ public class VenueController {
         this.venueService = venueService;
     }
 
-    @GetMapping("/venues")
+    @RequestMapping("/venues")
     public String findAllVenues(Model model) {
 
         model.addAttribute(VENUES, venueService.findAllVenues());
         return "list-venues";
     }
 
-    @GetMapping("/venue/{id}")
+    @RequestMapping("/venue/{id}")
     public String findVenueById(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute(VENUE, venueService.findVenueById(id));
         return "list-venue";
     }
 
-    @GetMapping("/updateVenue/{id}")
+    @RequestMapping("/addVenue")
+    public String showCreateForm(Model model) {
+        Venue venue = new Venue();
+
+        model.addAttribute(VENUE, venue);
+        return "add-venue";
+    }
+
+    @RequestMapping("/add-venue")
+    public String createVenue (Venue venue, Model model) {
+
+        venueService.createVenue(venue);
+        model.addAttribute(VENUE, venueService.findAllVenues());
+        return "redirect:/venues";
+    }
+
+    @RequestMapping("/updateVenue/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute(VENUE, venueService.findVenueById(id));
         return "update-venue";
     }
 
-    @PostMapping("/update-venue/{id}")
+    @RequestMapping("/update-venue/{id}")
     public String updateVenue(@PathVariable("id") Long id, Venue venue, BindingResult result, Model model) {
         if (result.hasErrors()) {
             venue.setId(id);
@@ -53,27 +69,8 @@ public class VenueController {
         return "redirect:/venues";
     }
 
-    @GetMapping("/addVenue")
-    public String showCreateForm(Model model) {
-        Venue newVenue = new Venue();
 
-        model.addAttribute(VENUE, newVenue);
-
-        return "add-venue";
-    }
-
-    @PostMapping("/add-venue")
-    public String createVenue (Venue venue, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "add-venue";
-        }
-        venueService.createVenue(venue);
-        model.addAttribute(VENUE, venueService.findAllVenues());
-        return "redirect:/venues";
-    }
-
-
-    @GetMapping("/delete-venue/{id}")
+    @RequestMapping("/delete-venue/{id}")
     public String deleteVenue(@PathVariable("id") Long id, Model model) {
         venueService.deleteVenue(id);
 

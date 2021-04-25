@@ -26,7 +26,8 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Type</th>
-                                <th>Details</th>
+                                <th>Venue</th>
+                                <th>Artist</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -35,7 +36,8 @@
                             <tr th:each="gig : ${gigs}">
                                 <td th:text="${gig.date}"></td>
                                 <td th:text="${gig.type.displayValue}"></td>
-                                <td><a th:href="@{/gig/{id}(id=${gig.id})}" class="btn btn-primary"><i class="fas fa-marker ml-2"></i></a></td>
+                                <td th:text="${gig.venue.name}"></td>
+                                <td th:text="${gig.artist.name}"></td>
                                 <td><a th:href="@{/updateGig/{id}(id=${gig.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
                                 <td><a th:href="@{/delete-gig/{id}(id=${gig.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
                             </tr>

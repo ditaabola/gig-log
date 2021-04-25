@@ -1,8 +1,6 @@
 package lv.dita.controllers;
 
 import lv.dita.domain.Manager;
-import lv.dita.model.ArtistDTO;
-import lv.dita.model.ManagerDTO;
 import lv.dita.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

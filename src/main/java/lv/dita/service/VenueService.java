@@ -9,7 +9,7 @@ public interface VenueService {
 
     public List<Venue> findAllVenues();
 
-    public Venue findVenueById (Long id) throws NotFoundException;
+    public Venue findVenueById (Long id);
 
     public void createVenue (Venue venue);
 

@@ -51,6 +51,7 @@ class ArtistServiceImplTest {
     void createArtists() {
         Artist createdArtist = new Artist();
         Long id = createdArtist.getId();
+        createdArtist.setName("Sniedze");
         artistRepositoryMock.save(createdArtist);
         when(artistRepositoryMock.findById(id)).thenReturn(Optional.of(createdArtist));
         assertEquals("Sniedze", artistServiceMock.findArtistById(id).getName());

@@ -1,12 +1,6 @@
 package lv.dita.controllers;
 
 import lv.dita.domain.Artist;
-import lv.dita.exception.NotFoundException;
-import lv.dita.domain.Manager;
-import lv.dita.model.ArtistDTO;
-import lv.dita.repositories.ArtistRepository;
-import lv.dita.repositories.ManagerRepository;
-import lv.dita.service.ArtistService;
 import lv.dita.service.impl.ArtistServiceImpl;
 import lv.dita.service.impl.ManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +15,6 @@ public class ArtistController {
     private final ArtistServiceImpl artistService;
     private final ManagerServiceImpl managerService;
 
-//    private final ArtistService artistService;
-//    private final ManagerService managerService;
-//
     private static final String MANAGERS = "managers";
     private static final String ARTIST = "artist";
     private static final String ARTISTS = "artists";
@@ -45,8 +36,8 @@ public class ArtistController {
 
     @RequestMapping("/artist/{id}")
     public String findArtistById(@PathVariable("id") Long id, Model model) {
-        model.addAttribute(ARTIST, artistService.findArtistById(id));
 
+        model.addAttribute(ARTIST, artistService.findArtistById(id));
         return "list-artist";
     }
 
@@ -60,7 +51,7 @@ public class ArtistController {
     }
 
     @RequestMapping("/add-artist")
-    public String createArtist (Artist artist, BindingResult result, Model model) {
+    public String createArtist (Artist artist, Model model) {
 
         artistService.createArtist(artist);
         model.addAttribute(ARTIST, artistService.findAllArtists());
@@ -89,6 +80,7 @@ public class ArtistController {
     @RequestMapping("/delete-artist/{id}")
     public String deleteArtist(@PathVariable("id") Long id, Model model) {
         artistService.deleteArtist(id);
+
         model.addAttribute(ARTISTS, artistService.findAllArtists());
         return "redirect:/artists";
     }

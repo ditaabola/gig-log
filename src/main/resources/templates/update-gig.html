@@ -20,8 +20,8 @@
                 <form action="#" th:action="@{/update-gig/{id}(id=${gig.id})}" th:object="${gig}" method="post">
                     <div class="row">
                         <div class="form-group col-md-8">
-                            <label for="name" class="col-form-label">Venue Name</label>
-                            <select name="name" class="form-control" id="name">
+                            <label for="venue" class="col-form-label">Venue</label>
+                            <select name="venue" class="form-control" id="venue" th:required="required">
                                 <option th:each="venue : ${venues}"
                                         th:value="${venue.id}" th:text="${venue.name}"></option>
                             </select>

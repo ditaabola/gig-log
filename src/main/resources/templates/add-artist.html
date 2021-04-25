@@ -28,8 +28,7 @@
                         <div class="form-group col-md-8">
                             <label for="manager" class="col-form-label">Manager</label>
                             <select th:field ="*{manager}" class="form-control" id="manager" th:required="required">
-                                <option th:each="manager: ${managers}"
-                                        th:value="${manager.id}" th:text = "${manager.surname}"></option>
+                                <option th:each="manager: ${managers}" th:value="${manager.id}" th:text = "${manager.surname}"></option>
                             </select>
                         </div>
 

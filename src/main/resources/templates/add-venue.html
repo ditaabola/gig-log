@@ -27,6 +27,7 @@
                         <div class="form-group col-md-8">
                             <label for="type" class="col-form-label">Venue Type</label>
                             <select name="type" class="form-control" id="type">
+                                <option value="" hidden>Select a venue type</option>
                                 <option th:each="type : ${T(lv.dita.enums.VenueType).values()}"
                                         th:value="${type}" th:text="${type.displayValue}"></option>
                             </select>

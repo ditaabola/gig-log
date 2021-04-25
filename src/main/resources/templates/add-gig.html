@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -21,8 +20,8 @@
                 <form action="#" th:action="@{/add-gig}" th:object="${gig}" method="post">
                     <div class="row">
                         <div class="form-group col-md-8">
-                            <label for="venue" class="col-form-label">Venue</label>
-                            <select th:field ="*{venues}" class="form-control" id="venue" placeholder="Venue">
+                            <label for="venueName" class="col-form-label">Venue</label>
+                            <select th:field ="*{venue}" class="form-control" id="venueName" placeholder="Venue" th:required="required">
                                 <option th:each="venue: ${venues}" th:value="${venue.id}" th:text = "${venue.name}"></option>
                             </select>
                         </div>
@@ -32,14 +31,16 @@
                         </div>
                         <div class="form-group col-md-8">
                             <label for="type" class="col-form-label">Gig Type</label>
-                            <select name="type" class="form-control" id="type">
+                            <select name="type" class="form-control" id="type"> placeholder="th:text="#{user.placeholder}"
+                                <option value="" hidden>Select a gig type</option>
                                 <option th:each="type: ${T(lv.dita.enums.GigType).values()}"
-                                        th:value="${type}" th:text = "${type.displayValue}"></option>
+                                        th:value="${type}" th:text = "${type.displayValue}">
+                                </option>
                             </select>
                         </div>
                         <div class="form-group col-md-8">
                             <label for="artist" class="col-form-label">Artist</label>
-                            <select th:field ="*{artists}" class="form-control" id="artist" placeholder="Artist">
+                            <select th:field ="*{artist}" class="form-control" id="artist" placeholder="Artist">
                                 <option th:each="artist: ${artists}" th:value="${artist.id}" th:text = "${artist.name}"></option>
                             </select>
                         </div>
