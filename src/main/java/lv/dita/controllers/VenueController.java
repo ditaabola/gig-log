@@ -1,6 +1,7 @@
 package lv.dita.controllers;
 
 import lv.dita.domain.Venue;
+import lv.dita.model.VenueDTO;
 import lv.dita.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,21 +22,21 @@ public class VenueController {
         this.venueService = venueService;
     }
 
-    @RequestMapping("/venues")
+    @GetMapping("/venues")
     public String findAllVenues(Model model) {
 
         model.addAttribute(VENUES, venueService.findAllVenues());
         return "list-venues";
     }
 
-    @RequestMapping("/venue/{id}")
+    @GetMapping("/venue/{id}")
     public String findVenueById(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute(VENUE, venueService.findVenueById(id));
         return "list-venue";
     }
 
-    @RequestMapping("/addVenue")
+    @GetMapping("/addVenue")
     public String showCreateForm(Model model) {
         Venue venue = new Venue();
 
@@ -43,34 +44,34 @@ public class VenueController {
         return "add-venue";
     }
 
-    @RequestMapping("/add-venue")
-    public String createVenue (Venue venue, Model model) {
+    @PostMapping("/add-venue")
+    public String createVenue (VenueDTO venueDTO, Model model) {
 
-        venueService.createVenue(venue);
+        venueService.createVenue(venueDTO);
         model.addAttribute(VENUE, venueService.findAllVenues());
         return "redirect:/venues";
     }
 
-    @RequestMapping("/updateVenue/{id}")
+    @GetMapping("/updateVenue/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute(VENUE, venueService.findVenueById(id));
         return "update-venue";
     }
 
-    @RequestMapping("/update-venue/{id}")
-    public String updateVenue(@PathVariable("id") Long id, Venue venue, BindingResult result, Model model) {
+    @PostMapping("/update-venue/{id}")
+    public String updateVenue(@PathVariable("id") Long id, VenueDTO venueDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            venue.setId(id);
+            venueDTO.setId(id);
             return "update-venue";
         }
-        venueService.updateVenue(venue);
+        venueService.updateVenue(id, venueDTO);
         model.addAttribute(VENUE, venueService.findAllVenues());
         return "redirect:/venues";
     }
 
 
-    @RequestMapping("/delete-venue/{id}")
+    @GetMapping("/delete-venue/{id}")
     public String deleteVenue(@PathVariable("id") Long id, Model model) {
         venueService.deleteVenue(id);
 

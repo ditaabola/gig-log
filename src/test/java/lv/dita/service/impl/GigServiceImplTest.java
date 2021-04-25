@@ -26,7 +26,7 @@ class GigServiceImplTest {
 
     @Mock
     Gig gig = new Gig ();
-    Gig gig2= new Gig ();
+    Gig gig2 = new Gig ();
 
     @Test
     void findAllGigs() {
@@ -43,17 +43,20 @@ class GigServiceImplTest {
     @Test
     void findGigById() {
         Long id = 2l;
-        when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(gig2));
+        gig.setId(id);
+        gig.setType(GigType.LIVE_CONCERT);
+        when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(gig));
         assertEquals("Live concert", gigServiceMock.findGigById(id).getType().getDisplayValue());
     }
 
     @Test
     void createGigs() {
-        Gig createdGig = new Gig();
-        Long id = createdGig.getId();
-        gigRepositoryMock.save(createdGig);
-        when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(createdGig));
-        assertEquals("Live concert", gigServiceMock.findGigById(id).getType().getDisplayValue());
+        Long id = 2l;
+        gig.setId(id);
+        gig.setType(GigType.LIVE_CONCERT);
+        gigRepositoryMock.save(gig);
+        when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(gig));
+        assertEquals("Live concert", gig.getType().getDisplayValue());
 
     }
 

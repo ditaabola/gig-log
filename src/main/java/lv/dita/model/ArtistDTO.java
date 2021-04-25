@@ -9,11 +9,7 @@ import lv.dita.domain.Manager;
     public class ArtistDTO {
 
         private Long id;
-
         private String name;
-
         private String contactEmail;
-
         private Manager manager;
-
     }

@@ -1,45 +1,47 @@
 package lv.dita.domain;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagerTest {
 
-//    private final Manager manager = new Manager(1L,  "Jake", "Jamanger", "jake@manager.com");
+    private final Manager manager = new Manager();
+
+    @Mock
+    List<Artist> artistList = new ArrayList<>();
+
+    @Test
+    void shouldSetAndGetName() {
+        manager.setName("John");
+        assertEquals("John", manager.getName());
+    }
+
+    @Test
+    void shouldSetAndGetSurName() {
+        manager.setSurname("Bravo");
+        assertEquals("Bravo", manager.getSurname());
+    }
+
+    @Test
+    void shouldSetAndGetEmail() {
+        manager.setEmail("this@email.com");
+        assertEquals("this@email.com", manager.getEmail());
+    }
 
 //    @Test
-//    void setName() {
-//        manager.setName("John");
-//        assertEquals("John", manager.getName());
-//    }
+//    void shouldGetOneArtistNameIfOneArtistInList() {
+//        Artist artist = new Artist();
+//        artist.setName("Juuk");
+//        artistList.add(artist);
 //
-//    @Test
-//    void getName() {
-//        String name = manager.getName();
-//        assertEquals("Jake", name);
-//    }
-//
-//    @Test
-//    void setSurname() {
-//        manager.setSurname("Bravo");
-//        assertEquals("Bravo", manager.getSurname());
+////        assertEquals(1, manager.getArtistList().size());
+//        assertEquals("Juuk", manager.getArtistList().get(0).getName());
 //    }
 
-//    @Test
-//    void getSurname() {
-//        String surname = manager.getSurname();
-//        assertEquals("Jamanger", surname);
-//    }
-//
-//    @Test
-//    void setEmail() {
-//        manager.setEmail("this@email.com");
-//        assertEquals("this@email.com", manager.getEmail());
-//    }
-//    @Test
-//    void getEmail() {
-//        String email = manager.getEmail();
-//        assertEquals("jake@manager.com", email);
-//    }
+
 }

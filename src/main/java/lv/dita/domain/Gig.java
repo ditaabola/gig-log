@@ -1,15 +1,12 @@
 package lv.dita.domain;
 
-import lombok.*;
+import lombok.Data;
 import lv.dita.enums.GigType;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
 public class Gig {
 

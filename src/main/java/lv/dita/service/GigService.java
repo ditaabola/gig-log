@@ -1,19 +1,17 @@
 package lv.dita.service;
 
-import lv.dita.domain.Gig;
-import lv.dita.exception.NotFoundException;
-
+import lv.dita.model.GigDTO;
 import java.util.List;
 
 public interface GigService {
 
-    public List<Gig> findAllGigs();
+    public List<GigDTO> findAllGigs();
 
-    public Gig findGigById(Long id);
+    public GigDTO findGigById(Long id);
 
-    public void createGig (Gig gig);
+    public void createGig (GigDTO gigDTO);
 
-    public void updateGig (Gig gig);
+    public void updateGig (Long id, GigDTO gigDTO);
 
     public void deleteGig (Long id);
 
