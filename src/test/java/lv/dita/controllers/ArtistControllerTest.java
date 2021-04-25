@@ -96,10 +96,11 @@ public class ArtistControllerTest {
 
     @Test
     public void shouldGetViewOfAllArtists() throws Exception {
-        this.mockMvc.perform(get("/list-artists"))
+        this.mockMvc.perform(get("/artists"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("artists"))
-                .andExpect(view().name("list-artists"));
+                .andExpect(view().name("list-artists"))
+                .andDo(print());
     }
 
     @Test

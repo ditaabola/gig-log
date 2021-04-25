@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -48,13 +47,13 @@ class ManagerServiceImplTest {
 
     @Test
     void createManagers() {
-        Manager createManager = new Manager();
-        Long id = createManager.getId();
-        managerRepositoryMock.save(createManager);
-        managerRepositoryMock.save(manager2);
-        when(managerRepositoryMock.findById(id)).thenReturn(Optional.of(createManager));
-        assertEquals("Sniedze", managertServiceMock.findManagerById(id).getName());
-
+        Manager manager = new Manager();
+        Long id = 1l;
+        manager.setId(id);
+        manager.setName("Manager");
+        managerRepositoryMock.save(manager);
+        when(managerRepositoryMock.findById(id)).thenReturn(Optional.of(manager));
+        assertEquals("Manager", managertServiceMock.findManagerById(id).getName());
     }
 
     @Test

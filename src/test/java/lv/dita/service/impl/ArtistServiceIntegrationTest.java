@@ -18,14 +18,14 @@ public class ArtistServiceIntegrationTest {
     private ArtistServiceImpl artistService;
 
     @Test
-    public void shouldFindAnExistingArtistById() {
+    void shouldFindAnExistingArtistById() {
         ArtistDTO artist = artistService.findArtistById(1L);
         assertThat(artist).isNotNull();
         assertThat(artist.getName().equals("Juuk"));
     }
 
     @Test(expected = NotFoundException.class)
-    public void shouldThrowNotFoundExceptionWhenFindByIdReturnsNoArtist() {
+    void shouldThrowNotFoundExceptionWhenFindByIdReturnsNoArtist() {
         ArtistDTO artist = artistService.findArtistById(7L);
         assertThat(artist).isNull();
 

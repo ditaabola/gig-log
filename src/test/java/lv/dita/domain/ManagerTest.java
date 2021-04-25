@@ -36,15 +36,15 @@ class ManagerTest {
         assertEquals("this@email.com", manager.getEmail());
     }
 
-    @Test
-    void shouldGetOneArtistNameIfOneArtistInList() {
-        Artist artist = new Artist();
-        artist.setName("Juuk");
-        artistList.add(artist);
-
-//        assertEquals(1, manager.getArtistList().size());
-        assertEquals("Juuk", manager.getArtistList().get(0).getName());
-    }
+//    @Test
+//    void shouldGetOneArtistNameIfOneArtistInList() {
+//        Artist artist = new Artist();
+//        artist.setName("Juuk");
+//        artistList.add(artist);
+//
+////        assertEquals(1, manager.getArtistList().size());
+//        assertEquals("Juuk", manager.getArtistList().get(0).getName());
+//    }
 
 
 }

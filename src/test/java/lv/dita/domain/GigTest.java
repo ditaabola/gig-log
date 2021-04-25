@@ -3,7 +3,6 @@ package lv.dita.domain;
 import lv.dita.enums.GigType;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GigTest {
@@ -29,7 +28,7 @@ class GigTest {
         Artist artist = new Artist();
         artist.setName("Juuk");
         gig.setArtist(artist);
-        assertEquals("Juukv", gig.getArtist().getName());
+        assertEquals("Juuk", gig.getArtist().getName());
 
     }
 

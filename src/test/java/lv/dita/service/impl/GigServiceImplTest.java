@@ -46,7 +46,7 @@ class GigServiceImplTest {
         gig.setId(id);
         gig.setType(GigType.LIVE_CONCERT);
         when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(gig));
-        assertEquals("Live concert", gigServiceMock.findGigById(id).getType().getDisplayValue());
+        assertEquals("Live concert", gigServiceMock.findGigById(id).getType());
     }
 
     @Test
