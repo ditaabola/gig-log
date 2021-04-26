@@ -1,9 +1,15 @@
 package lv.dita.service.impl;
 
+import lv.dita.domain.Artist;
+import lv.dita.domain.Gig;
 import lv.dita.domain.Manager;
+import lv.dita.enums.GigType;
+import lv.dita.model.ArtistDTO;
+import lv.dita.model.ManagerDTO;
 import lv.dita.repositories.ManagerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,6 +31,7 @@ class ManagerServiceImplTest {
     @Mock
     Manager manager = new Manager ();
     Manager manager2 = new Manager();
+    ManagerDTO dto = new ManagerDTO();
 
     @Test
     void findAllManager() {
@@ -46,7 +53,7 @@ class ManagerServiceImplTest {
     }
 
     @Test
-    void createManagers() {
+    void shouldCreateManagers() {
         Manager manager = new Manager();
         Long id = 1l;
         manager.setId(id);
@@ -57,11 +64,27 @@ class ManagerServiceImplTest {
     }
 
     @Test
-    void updateManagers() {
-        Long id = 2l;
-        when(managerRepositoryMock.findById(id)).thenReturn(Optional.of(manager2));
-        manager2.setName("NewManager");
-        managerRepositoryMock.save(manager2);
-        assertEquals("NewManager", managertServiceMock.findManagerById(id).getName());
+    void shouldUpdateManagers() {
+        Manager manager = new Manager();
+        Long id = 3l;
+        manager.setId(id);
+        manager.setName("Jamanger");
+        when(managerRepositoryMock.findById(manager.getId())).thenReturn(Optional.of(manager));
+        dto.setName("Manager");
+        managertServiceMock.updateManager(id, dto);
+        ArgumentCaptor<Manager> managerArgumentCaptor = ArgumentCaptor.forClass(Manager.class);
+        verify(managerRepositoryMock).save(managerArgumentCaptor.capture());
+
+        manager = managerArgumentCaptor.getValue();
+        assertEquals("Manager", manager.getName());
+    }
+
+    @Test
+    void shouldDeleteManager() {
+        Manager manager = new Manager();
+        manager.setId(3l);
+        manager.setSurname("Manager");
+        when(managerRepositoryMock.findById(manager.getId())).thenReturn(Optional.of(manager));
+        managertServiceMock.deleteManager(manager.getId());
     }
 }

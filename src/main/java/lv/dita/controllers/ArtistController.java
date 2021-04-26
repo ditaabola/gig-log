@@ -24,14 +24,12 @@ public class ArtistController {
     public ArtistController(ArtistServiceImpl artistService, ManagerServiceImpl managerService) {
         this.artistService = artistService;
         this.managerService = managerService;
-
     }
 
     @GetMapping("/artists")
     public String findAllArtists(Model model) {
 
         model.addAttribute(ARTISTS, artistService.findAllArtists());
-        model.addAttribute(MANAGERS, managerService.findAllManagers());
         return "list-artists";
     }
 
@@ -54,7 +52,7 @@ public class ArtistController {
     @PostMapping("/add-artist")
     public String createArtist (ArtistDTO artistDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "error/500";
+            return "error/404";
         }
 
         artistService.createArtist(artistDTO);
@@ -66,7 +64,7 @@ public class ArtistController {
     @GetMapping(value="/updateArtist/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute(ARTIST, artistService.findArtistById(id));
-        model.addAttribute(MANAGERS, managerService.findAllManagers());
+        //model.addAttribute(MANAGERS, managerService.findAllManagers());
         return "update-artist";
     }
 
@@ -74,7 +72,7 @@ public class ArtistController {
     public String updateArtist(@PathVariable("id") Long id, ArtistDTO artistDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
             artistDTO.setId(id);
-            return "error/500";
+            return "error/404";
         }
         artistService.updateArtists(id, artistDTO);
         model.addAttribute(ARTIST, artistService.findAllArtists());

@@ -1,10 +1,10 @@
 package lv.dita.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class ManagerDTO {
 
     private Long id;

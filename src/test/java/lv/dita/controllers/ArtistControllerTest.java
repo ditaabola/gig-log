@@ -1,70 +1,38 @@
 package lv.dita.controllers;
 
-import lv.dita.GigLogApplication;
 import lv.dita.domain.Artist;
 import lv.dita.domain.Manager;
+import lv.dita.exception.NotFoundException;
 import lv.dita.model.ArtistDTO;
-import lv.dita.model.ManagerDTO;
 import lv.dita.service.impl.ArtistServiceImpl;
 import lv.dita.service.impl.ManagerServiceImpl;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.springframework.web.context.WebApplicationContext;
-import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.context.WebApplicationContext;
 import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import static org.hamcrest.Matchers.hasProperty;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = ArtistController.class)
+@WebMvcTest(ArtistController.class)
 @AutoConfigureMockMvc
 public class ArtistControllerTest {
-
-    @Autowired
-    private WebApplicationContext wac;
 
     @Autowired
     ArtistController artistController;
@@ -91,14 +59,26 @@ public class ArtistControllerTest {
         artist1.setName("Juuk");
         artist1.setContactEmail("juuk@juuk.com");
         artist1.setManager(manager1);
+
+        artist3 = new ArtistDTO();
+        artist3.setName("Manta");
+        artist3.setContactEmail("manta@manta.com");
     }
 
+    @Test
+    public void controllerInitializedCorrectly() {
+        assertThat(artistController).isNotNull();
+    }
 
     @Test
     public void shouldGetViewOfAllArtists() throws Exception {
+        when(artistService.findAllArtists())
+                .thenReturn(List.of(artist3));
+
         this.mockMvc.perform(get("/artists"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("artists"))
+                .andExpect(model().size(1))
                 .andExpect(view().name("list-artists"))
                 .andDo(print());
     }
@@ -107,10 +87,10 @@ public class ArtistControllerTest {
     public void shouldGetViewOfFindArtistById() throws Exception {
         assertThat(this.artistService).isNotNull();
         when(artistService.findArtistById(1L)).thenReturn(artist1);
-        MvcResult result= mockMvc.perform(get("/artist/{id}/", 1))
+        mockMvc.perform(get("/artist/{id}/", 1))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("artist", hasProperty("name", is("Juuk"))))
-                .andExpect(model().attribute("artist", hasProperty("contactEmail", is("juuk@juuk.com"))))
+                .andExpect(model().attribute("artist", Matchers.hasProperty("name", Matchers.equalTo("Juuk"))))
+                .andExpect(model().attribute("artist", Matchers.hasProperty("contactEmail", Matchers.equalTo("juuk@juuk.com"))))
                 .andExpect(view().name("list-artist"))
                 .andReturn();
 
@@ -118,5 +98,51 @@ public class ArtistControllerTest {
         verifyNoMoreInteractions(artistService);
     }
 
+    @Test
+    public void shouldGetAddArtistCreateForm() throws Exception {
+
+        mockMvc.perform(get("/addArtist/"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("artist"))
+                .andExpect(view().name("add-artist"))
+                .andReturn();
+           }
+
+    @Test
+    public void shouldRedirectToAllArtistsViewWhenArtistCreated() throws Exception {
+
+        artistService.createArtist(artist1);
+        mockMvc.perform(post("/add-artist"))
+                .andExpect(status().is3xxRedirection());
+
+    }
+
+    @Test
+    public void shouldGetUpdateArtistForm() throws Exception {
+        when(artistService.findArtistById(1L)).thenReturn(artist1);
+
+        mockMvc.perform(get("/updateArtist/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("artist"))
+                .andExpect(view().name("update-artist"))
+                .andReturn();
+    }
+
+    @Test
+    public void shouldRedirectToAllArtistsViewWhenArtistUpdated() throws Exception {
+        Long id = 1l;
+        artistService.updateArtists(id, artist1);
+        mockMvc.perform(post("/update-artist/{id}", id))
+                .andExpect(status().is3xxRedirection());
+
+    }
+
+    @Test
+    public void shouldRedirectToArtistsListAfterArtistDeleted() throws Exception {
+        Long id = 1l;
+        artistService.deleteArtist(id);
+        mockMvc.perform(get("/delete-artist/{id}", id))
+                .andExpect(status().is3xxRedirection());
+    }
 
 }

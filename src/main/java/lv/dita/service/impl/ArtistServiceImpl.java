@@ -67,7 +67,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     }
 
-    private ArtistDTO mapToDTO(final Artist artist, final ArtistDTO artistDTO) {
+    public ArtistDTO mapToDTO(Artist artist, ArtistDTO artistDTO) {
         artistDTO.setId(artist.getId());
         artistDTO.setName(artist.getName());
         artistDTO.setContactEmail(artist.getContactEmail());
@@ -75,7 +75,8 @@ public class ArtistServiceImpl implements ArtistService {
         return artistDTO;
     }
 
-    private Artist mapToEntity(final ArtistDTO artistDTO, final Artist artist) {
+    public Artist mapToEntity(ArtistDTO artistDTO, Artist artist) {
+        artist.setId(artistDTO.getId());
         artist.setName(artistDTO.getName());
         artist.setContactEmail(artistDTO.getContactEmail());
         if (artistDTO.getManager() != null && (artist.getManager() == null || !artist.getManager().getId().equals(artistDTO.getManager().getId()))) {
@@ -85,4 +86,6 @@ public class ArtistServiceImpl implements ArtistService {
         }
         return artist;
     }
+
+
 }

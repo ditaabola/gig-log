@@ -1,5 +1,6 @@
 package lv.dita.service.impl;
 
+import lv.dita.domain.Artist;
 import lv.dita.enums.VenueType;
 import lv.dita.domain.Venue;
 import lv.dita.repositories.VenueRepository;
@@ -43,19 +44,21 @@ class VenueServiceImplTest {
     @Test
     void findVenueById() {
         Long id = 2l;
+        venue2.setId(id);
+        venue2.setName("LMS");
         when(venueRepositoryMock.findById(id)).thenReturn(Optional.of(venue2));
-        assertEquals("Alternative club", venueServiceMock.findVenueById(id).getType().getDisplayValue());
-    }
-
-    @Test
-    void createVenue() {
-        Venue createdVenue = new Venue();
-        Long id = createdVenue.getId();
-        venueRepositoryMock.save(createdVenue);
-        when(venueRepositoryMock.findById(id)).thenReturn(Optional.of(createdVenue));
-        assertEquals("Private venue", venueServiceMock.findVenueById(id).getType().getDisplayValue());
+        assertEquals("LMS", venueServiceMock.findVenueById(id).getName());
 
     }
+
+//    @Test
+//    void createVenue() {
+//        Venue createdVenue = new Venue();
+//        Long id = createdVenue.getId();
+//        createdVenue.setName("Depo");
+//        venueRepositoryMock.save(createdVenue);
+//        assertEquals("Depo", venueServiceMock.findVenueById(id).getName());
+//    }
 
     @Test
     void updateGigs() {
@@ -64,5 +67,15 @@ class VenueServiceImplTest {
         venue2.setCity("Valmiera");
         venueRepositoryMock.save(venue2);
         assertEquals("Valmiera", venueServiceMock.findVenueById(id).getCity());
+    }
+
+    @Test
+    void shouldDeleteVenue() {
+        Venue venue = new Venue();
+        venue.setId(3l);
+        venue.setName("Depo");
+        when(venueRepositoryMock.findById(venue.getId())).thenReturn(Optional.of(venue));
+        venueServiceMock.deleteVenue(venue.getId());
+
     }
 }

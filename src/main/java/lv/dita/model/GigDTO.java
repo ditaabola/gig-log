@@ -1,5 +1,6 @@
 package lv.dita.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lv.dita.domain.Artist;
@@ -10,8 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 
-@Getter
-@Setter
+@Data
 public class GigDTO {
 
     private Long id;
