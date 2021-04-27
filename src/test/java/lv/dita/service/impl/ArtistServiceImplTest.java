@@ -5,16 +5,19 @@ import lv.dita.exception.NotFoundException;
 import lv.dita.model.ArtistDTO;
 import lv.dita.repositories.ArtistRepository;
 import lv.dita.repositories.ManagerRepository;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -25,9 +28,6 @@ class ArtistServiceImplTest {
     @Mock
     private ArtistRepository artistRepositoryMock;
 
-    @Mock
-    private ManagerRepository managerRepository;
-
     @InjectMocks
     private ArtistServiceImpl artistServiceMock;
 
@@ -35,6 +35,12 @@ class ArtistServiceImplTest {
     Artist artist = new Artist();
     Artist artist2 = new Artist();
     ArtistDTO dto = new ArtistDTO();
+
+    @Before
+    public void setUp() throws Exception {
+
+        MockitoAnnotations.openMocks(artistServiceMock);
+    }
 
     @Test
     void shouldFindAllArtistsListWhenFindAllArtists() {
@@ -99,11 +105,10 @@ class ArtistServiceImplTest {
 
     @Test
     void shouldDeleteArtist() {
-        Artist artist = new Artist();
-        artist.setId(3l);
-        artist.setName("Juuk");
+        artist.setId(2L);
         when(artistRepositoryMock.findById(artist.getId())).thenReturn(Optional.of(artist));
         artistServiceMock.deleteArtist(artist.getId());
+
 
     }
 

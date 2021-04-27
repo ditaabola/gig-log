@@ -1,10 +1,6 @@
 package lv.dita.service.impl;
 
-import lv.dita.domain.Artist;
-import lv.dita.domain.Gig;
 import lv.dita.domain.Manager;
-import lv.dita.enums.GigType;
-import lv.dita.model.ArtistDTO;
 import lv.dita.model.ManagerDTO;
 import lv.dita.repositories.ManagerRepository;
 import org.junit.jupiter.api.Test;
@@ -86,5 +82,7 @@ class ManagerServiceImplTest {
         manager.setSurname("Manager");
         when(managerRepositoryMock.findById(manager.getId())).thenReturn(Optional.of(manager));
         managertServiceMock.deleteManager(manager.getId());
+
+
     }
 }

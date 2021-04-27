@@ -1,19 +1,13 @@
 package lv.dita.controllers;
 
-import lv.dita.domain.Artist;
 import lv.dita.domain.Manager;
-import lv.dita.exception.NotFoundException;
 import lv.dita.model.ArtistDTO;
 import lv.dita.service.impl.ArtistServiceImpl;
 import lv.dita.service.impl.ManagerServiceImpl;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -85,7 +79,7 @@ public class ArtistControllerTest {
 
     @Test
     public void shouldGetViewOfFindArtistById() throws Exception {
-        assertThat(this.artistService).isNotNull();
+
         when(artistService.findArtistById(1L)).thenReturn(artist1);
         mockMvc.perform(get("/artist/{id}/", 1))
                 .andExpect(status().isOk())
@@ -113,7 +107,8 @@ public class ArtistControllerTest {
 
         artistService.createArtist(artist1);
         mockMvc.perform(post("/add-artist"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/artists"));
 
     }
 
@@ -133,7 +128,8 @@ public class ArtistControllerTest {
         Long id = 1l;
         artistService.updateArtists(id, artist1);
         mockMvc.perform(post("/update-artist/{id}", id))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/artists"));
 
     }
 
@@ -142,7 +138,8 @@ public class ArtistControllerTest {
         Long id = 1l;
         artistService.deleteArtist(id);
         mockMvc.perform(get("/delete-artist/{id}", id))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/artists"));
     }
 
 }

@@ -3,9 +3,12 @@ package lv.dita.service.impl;
 import lv.dita.domain.Artist;
 import lv.dita.enums.GigType;
 import lv.dita.domain.Gig;
+import lv.dita.exception.NotFoundException;
+import lv.dita.model.GigDTO;
 import lv.dita.repositories.GigRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -13,6 +16,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -28,6 +33,7 @@ class GigServiceImplTest {
     @Mock
     Gig gig = new Gig ();
     Gig gig2 = new Gig ();
+    GigDTO dto = new GigDTO();
 
     @Test
     void findAllGigs() {
@@ -41,33 +47,53 @@ class GigServiceImplTest {
         assertEquals(0, gigServiceMock.findAllGigs().size());
     }
 
-//    @Test
-//    void findGigById() {
-//        Long id = 2l;
-//        gig.setId(id);
-//        gig.setType(GigType.LIVE_CONCERT);
-//        when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(gig));
-//        assertEquals("Live concert", gigServiceMock.findGigById(id).getType().getDisplayValue());
-//    }
+   @Test
+    void shouldFindGigById() {
+        Long id = 2l;
+        gig2.setId(id);
+        gig2.setType(GigType.LIVE_CONCERT);
+        when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(gig2));
+        assertEquals("Live concert", gigServiceMock.findGigById(id).getType().getDisplayValue());
+    }
 
     @Test
-    void createGigs() {
-        Gig createdGig = new Gig();
-        createdGig.setType(GigType.LIVE_CONCERT);
-        gigRepositoryMock.save(createdGig);
-        assertEquals("Live concert", createdGig.getType().getDisplayValue());
+    void shouldThrowExceptionIfCannotBeFound() {
+        Long id = 3l;
+        when(gigRepositoryMock.findById(id)).thenThrow(new NotFoundException(String.format("Gig not found with ID %d", id)));
+
+        assertThatThrownBy(()-> gigServiceMock.findGigById(id))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(String.format("Gig not found with ID %d", id));
+
+        verify(gigRepositoryMock, never()).save(any());
+    }
+
+    @Test
+    void shouldCreateGig() {
+        dto.setType(GigType.CORPORATE_GIG);
+        gigServiceMock.createGig(dto);
+        ArgumentCaptor<Gig> gigArgumentCaptor = ArgumentCaptor.forClass(Gig.class);
+        verify(gigRepositoryMock).save(gigArgumentCaptor.capture());
+
+        Gig createdGig = gigArgumentCaptor.getValue();
+        assertEquals("Corporate gig", createdGig.getType().getDisplayValue());
 
     }
 
     @Test
-    void updateGigs() {
-        Long id = 2l;
-        when(gigRepositoryMock.findById(id)).thenReturn(Optional.of(gig2));
-        gig2.setDate(LocalDate.of(2020, 3, 11));
-        //gig2.getVenue().setName("LMA");
-        gigRepositoryMock.save(gig2);
-        assertEquals(LocalDate.of(2020, 3, 11), gigServiceMock.findGigById(id).getDate());
-        //assertEquals(1l, gigServiceMock.findGigById(id).getVenue().getId());
+    void shouldUpdateGig() {
+        Gig gig = new Gig();
+        Long id = 3l;
+        gig.setId(id);
+        gig.setType(GigType.PRIVATE_GIG);
+        when(gigRepositoryMock.findById(gig.getId())).thenReturn(Optional.of(gig));
+        dto.setType(GigType.CORPORATE_GIG);
+        gigServiceMock.updateGig(id, dto);
+        ArgumentCaptor<Gig> gigArgumentCaptor = ArgumentCaptor.forClass(Gig.class);
+        verify(gigRepositoryMock).save(gigArgumentCaptor.capture());
+
+        gig = gigArgumentCaptor.getValue();
+        assertEquals("Corporate gig", gig.getType().getDisplayValue());
     }
 
     @Test
