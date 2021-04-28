@@ -1,22 +1,21 @@
 package lv.dita.service.impl;
 
-import lv.dita.domain.Artist;
 import lv.dita.enums.GigType;
 import lv.dita.domain.Gig;
 import lv.dita.exception.NotFoundException;
 import lv.dita.model.GigDTO;
 import lv.dita.repositories.GigRepository;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,14 +34,20 @@ class GigServiceImplTest {
     Gig gig2 = new Gig ();
     GigDTO dto = new GigDTO();
 
+    @Before
+    public void setUp() throws Exception {
+
+        MockitoAnnotations.openMocks(gigServiceMock);
+    }
+
     @Test
-    void findAllGigs() {
+    void shouldFindGigsListWhenFindAllGigs() {
         when(gigRepositoryMock.findAll()).thenReturn(Arrays.asList(gig, gig2));
         assertEquals(2, gigServiceMock.findAllGigs().size());
     }
 
     @Test
-    void findEmptyListIfNoGigs() {
+    void shouldFindEmptyListWhenNoGigs() {
         when(gigRepositoryMock.findAll()).thenReturn(new ArrayList<>());
         assertEquals(0, gigServiceMock.findAllGigs().size());
     }

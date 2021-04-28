@@ -1,6 +1,7 @@
 package lv.dita.service.impl;
 
 import lv.dita.domain.Manager;
+import lv.dita.exception.NotFoundException;
 import lv.dita.model.ManagerDTO;
 import lv.dita.repositories.ManagerRepository;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -30,33 +32,48 @@ class ManagerServiceImplTest {
     ManagerDTO dto = new ManagerDTO();
 
     @Test
-    void findAllManager() {
+    void shouldFindManagerListWhenAllManagers() {
         when(managerRepositoryMock.findAll()).thenReturn(Arrays.asList(manager, manager2));
         assertEquals(2, managertServiceMock.findAllManagers().size());
     }
 
     @Test
-    void findEmptyListIfNoManagers() {
+    void shouldFindEmptyListIfNoManagers() {
         when(managerRepositoryMock.findAll()).thenReturn(new ArrayList<>());
         assertEquals(0, managertServiceMock.findAllManagers().size());
     }
 
     @Test
-    void findManagerById() {
+    void shouldFindManagerById() {
         Long id = 2l;
+        manager2.setId(id);
+        manager2.setName("Lane");
         when(managerRepositoryMock.findById(id)).thenReturn(Optional.of(manager2));
-        assertEquals(manager2.getName(), managertServiceMock.findManagerById(id).getName());
+        assertEquals("Lane", managertServiceMock.findManagerById(id).getName());
     }
 
     @Test
+    void shouldThrowExceptionIfCannotBeFound() {
+        Long id = 3l;
+        when(managerRepositoryMock.findById(id)).thenThrow(new NotFoundException(String.format("Manager not found with ID %d", id)));
+
+        assertThatThrownBy(()-> managertServiceMock.findManagerById(id))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage(String.format("Manager not found with ID %d", id));
+
+        verify(managerRepositoryMock, never()).save(any());
+    }
+
+
+    @Test
     void shouldCreateManagers() {
-        Manager manager = new Manager();
-        Long id = 1l;
-        manager.setId(id);
-        manager.setName("Manager");
-        managerRepositoryMock.save(manager);
-        when(managerRepositoryMock.findById(id)).thenReturn(Optional.of(manager));
-        assertEquals("Manager", managertServiceMock.findManagerById(id).getName());
+        dto.setName("TheManager");
+        managertServiceMock.createManager(dto);
+        ArgumentCaptor<Manager> managerArgumentCaptor = ArgumentCaptor.forClass(Manager.class);
+        verify(managerRepositoryMock).save(managerArgumentCaptor.capture());
+
+        Manager createdManager = managerArgumentCaptor.getValue();
+        assertEquals("TheManager", createdManager.getName());
     }
 
     @Test
@@ -77,9 +94,7 @@ class ManagerServiceImplTest {
 
     @Test
     void shouldDeleteManager() {
-        Manager manager = new Manager();
         manager.setId(3l);
-        manager.setSurname("Manager");
         when(managerRepositoryMock.findById(manager.getId())).thenReturn(Optional.of(manager));
         managertServiceMock.deleteManager(manager.getId());
 
