@@ -5,7 +5,7 @@ import lv.dita.domain.Gig;
 import lv.dita.exception.NotFoundException;
 import lv.dita.model.GigDTO;
 import lv.dita.repositories.GigRepository;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -34,7 +34,8 @@ class GigServiceImplTest {
     Gig gig2 = new Gig ();
     GigDTO dto = new GigDTO();
 
-    @Before
+    @BeforeEach
+
     public void setUp() throws Exception {
 
         MockitoAnnotations.openMocks(gigServiceMock);
@@ -108,6 +109,7 @@ class GigServiceImplTest {
         gig.setType(GigType.CORPORATE_GIG);
         when(gigRepositoryMock.findById(gig.getId())).thenReturn(Optional.of(gig));
         gigServiceMock.deleteGig(gig.getId());
+        verify(gigRepositoryMock, times(1)).deleteById(gig.getId());
     }
 
 }

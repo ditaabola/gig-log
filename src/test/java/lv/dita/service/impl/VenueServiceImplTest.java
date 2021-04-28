@@ -4,7 +4,7 @@ import lv.dita.domain.Venue;
 import lv.dita.exception.NotFoundException;
 import lv.dita.model.VenueDTO;
 import lv.dita.repositories.VenueRepository;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -33,7 +33,7 @@ class VenueServiceImplTest {
     Venue venue2 = new Venue();
     VenueDTO dto = new VenueDTO();
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
         MockitoAnnotations.openMocks(venueServiceMock);
@@ -106,6 +106,7 @@ class VenueServiceImplTest {
         venue.setId(3l);
         when(venueRepositoryMock.findById(venue.getId())).thenReturn(Optional.of(venue));
         venueServiceMock.deleteVenue(venue.getId());
+        verify(venueRepositoryMock, times(1)).deleteById(venue.getId());
 
     }
 }

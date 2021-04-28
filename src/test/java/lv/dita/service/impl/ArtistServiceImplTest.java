@@ -4,7 +4,7 @@ import lv.dita.domain.Artist;
 import lv.dita.exception.NotFoundException;
 import lv.dita.model.ArtistDTO;
 import lv.dita.repositories.ArtistRepository;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -33,7 +33,7 @@ class ArtistServiceImplTest {
     Artist artist2 = new Artist();
     ArtistDTO dto = new ArtistDTO();
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
         MockitoAnnotations.openMocks(artistServiceMock);
@@ -105,6 +105,7 @@ class ArtistServiceImplTest {
         artist.setId(2L);
         when(artistRepositoryMock.findById(artist.getId())).thenReturn(Optional.of(artist));
         artistServiceMock.deleteArtist(artist.getId());
+        verify(artistRepositoryMock, times(1)).deleteById(artist.getId());
 
 
     }

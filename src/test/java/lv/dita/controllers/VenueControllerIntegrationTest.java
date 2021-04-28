@@ -1,8 +1,9 @@
 package lv.dita.controllers;
 
-import lv.dita.domain.Artist;
-import lv.dita.model.ArtistDTO;
-import lv.dita.service.impl.ArtistServiceImpl;
+import lv.dita.domain.Venue;
+import lv.dita.enums.VenueType;
+import lv.dita.model.VenueDTO;
+import lv.dita.service.impl.VenueServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
-public class ArtistControllerIntegrationTest {
+public class VenueControllerIntegrationTest {
 
     @LocalServerPort
     private int port;
@@ -29,29 +31,35 @@ public class ArtistControllerIntegrationTest {
     private TestRestTemplate testRestTemplate;
 
     @Autowired
-    ArtistServiceImpl artistService;
+    VenueServiceImpl venueService;
 
     @Test
-    public void testArtistController () throws Exception{
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "artists", String.class)).isNotBlank();
+    public void testVenueController () throws Exception{
+        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "venues", String.class)).isNotBlank();
 
     }
 
     @Test
-    public void testAddArtistPageRedirectsToArtistsAfterAddingArtistAndArtistNotNull(){
-        Artist artist = new Artist();
-        artist.setName("Juuk");
-        artist.setContactEmail("juuk@juuk.com");
+    public void testAddVenuePageRedirectsToVenuesAfterAddingVenueAndVenueNotNull(){
+        Venue venue = new Venue();
+        venue.setName("Depoe");
+        venue.setType(VenueType.PRIVATE_VENUE);
+        venue.setCountry("Bolivia");
+        venue.setCity("San Tropez");
+
         ResponseEntity<String> responseEntity = this.testRestTemplate
-                .postForEntity("http://localhost:"+port+"add-artist", artist, String.class);
+                .postForEntity("http://localhost:"+port+"add-venue", venue, String.class);
         assertEquals(302, responseEntity.getStatusCodeValue());
-        assertNotNull(artist);
+        assertNotNull(venue);
     }
 
     @Test
-    public void testFindAllArtists() {
-        List<ArtistDTO> artists = artistService.findAllArtists();
+    public void testFindAllVenues() {
 
-        assertThat(artists.size(), is(greaterThanOrEqualTo(0)));
+        List<VenueDTO> venues = venueService.findAllVenues();
+
+        assertThat(venues.size(), is(greaterThanOrEqualTo(0)));
+
+
     }
 }

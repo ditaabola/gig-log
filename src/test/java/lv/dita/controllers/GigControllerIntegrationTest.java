@@ -1,8 +1,13 @@
 package lv.dita.controllers;
 
 import lv.dita.domain.Artist;
-import lv.dita.model.ArtistDTO;
-import lv.dita.service.impl.ArtistServiceImpl;
+import lv.dita.domain.Gig;
+import lv.dita.domain.Venue;
+import lv.dita.enums.GigType;
+import lv.dita.model.GigDTO;
+import lv.dita.service.impl.GigServiceImpl;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +16,15 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import java.time.LocalDate;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
-public class ArtistControllerIntegrationTest {
+public class GigControllerIntegrationTest {
 
     @LocalServerPort
     private int port;
@@ -29,29 +33,36 @@ public class ArtistControllerIntegrationTest {
     private TestRestTemplate testRestTemplate;
 
     @Autowired
-    ArtistServiceImpl artistService;
+    GigServiceImpl gigService;
 
     @Test
-    public void testArtistController () throws Exception{
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "artists", String.class)).isNotBlank();
+    public void testGigController () throws Exception{
+        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "gigs", String.class)).isNotBlank();
 
     }
 
     @Test
-    public void testAddArtistPageRedirectsToArtistsAfterAddingArtistAndArtistNotNull(){
+    public void testAddArtistPageRedirectsToGigsAfterAddingGigAndGigNotNull(){
+        Gig gig = new Gig();
         Artist artist = new Artist();
         artist.setName("Juuk");
-        artist.setContactEmail("juuk@juuk.com");
+        Venue venue = new Venue();
+        venue.setName("Depo");
+
+        gig.setArtist(artist);
+        gig.setVenue(venue);
+        gig.setDate(LocalDate.of(2020, 11, 20));
+        gig.setType(GigType.PRIVATE_GIG);
         ResponseEntity<String> responseEntity = this.testRestTemplate
-                .postForEntity("http://localhost:"+port+"add-artist", artist, String.class);
+                .postForEntity("http://localhost:"+port+"add-gig", gig, String.class);
         assertEquals(302, responseEntity.getStatusCodeValue());
-        assertNotNull(artist);
+        assertNotNull(gig);
     }
 
     @Test
-    public void testFindAllArtists() {
-        List<ArtistDTO> artists = artistService.findAllArtists();
+    public void testFindAllGigs() {
+        List<GigDTO> gigs = gigService.findAllGigs();
 
-        assertThat(artists.size(), is(greaterThanOrEqualTo(0)));
+        assertThat(gigs.size(), is(greaterThanOrEqualTo(0)));
     }
 }

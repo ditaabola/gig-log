@@ -4,11 +4,13 @@ import lv.dita.domain.Manager;
 import lv.dita.exception.NotFoundException;
 import lv.dita.model.ManagerDTO;
 import lv.dita.repositories.ManagerRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +32,12 @@ class ManagerServiceImplTest {
     Manager manager = new Manager ();
     Manager manager2 = new Manager();
     ManagerDTO dto = new ManagerDTO();
+
+    @BeforeEach
+
+    public void setUp() throws Exception {
+        MockitoAnnotations.openMocks(managertServiceMock);
+    }
 
     @Test
     void shouldFindManagerListWhenAllManagers() {
@@ -97,6 +105,7 @@ class ManagerServiceImplTest {
         manager.setId(3l);
         when(managerRepositoryMock.findById(manager.getId())).thenReturn(Optional.of(manager));
         managertServiceMock.deleteManager(manager.getId());
+        verify(managerRepositoryMock, times(1)).deleteById(manager.getId());
 
 
     }

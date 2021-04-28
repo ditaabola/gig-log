@@ -64,7 +64,6 @@ public class ArtistController {
     @GetMapping(value="/updateArtist/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute(ARTIST, artistService.findArtistById(id));
-        //model.addAttribute(MANAGERS, managerService.findAllManagers());
         return "update-artist";
     }
 

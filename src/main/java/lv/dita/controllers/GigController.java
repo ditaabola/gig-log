@@ -34,8 +34,6 @@ public class GigController {
     public String findAllGigs(Model model) {
 
         model.addAttribute(GIGS, gigService.findAllGigs());
-        model.addAttribute(VENUES, venueService.findAllVenues());
-        model.addAttribute(ARTISTS, artistService.findAllArtists());
         return "list-gigs";
     }
 
