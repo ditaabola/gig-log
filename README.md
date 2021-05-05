@@ -1,14 +1,14 @@
-##Introduction
+## Introduction
 A training project to learn Spring Boot. 
 Simple gig logging app to log lists of managers, artists, venues and gigs the artists have performed in the venues.
 
-##Libraries used:
+## Libraries used:
 * Spring Boot - version 2.4.0.
 * Hibernate - version 5.3.10.
 * Thymeleaf - version 5.3.0.
 * H2 
 
-##Setup
+## Setup
 For building and running the application you need:
 * JDK 11
 * Maven 3
@@ -27,5 +27,5 @@ mvn spring-boot:run
 
 The web application is accessible via localhost:8080
 
-##Status
+## Status
 Project is in progress, this is the first draft, to showcase implementation of basic functionalities.
